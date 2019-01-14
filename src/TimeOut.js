@@ -9,14 +9,16 @@ var PassThrough = require('./PassThrough');
 /**
 *
 * ```javascript
-*   let TimeOut = require('callback-patterns/TimeOut');
 *
-*   let chain = TimeOut(
-*     function(next, ...args) {},
+*   let TimeOut = require('async-patterns/TimeOut');
+*
+*   let task = TimeOut(
+*     async function (...args) {},
 *			1000
 *   );
 *
-*   chain(next, ...args);
+*   await task(...args);
+*
 * ```
 *
 * TimeOut wraps a single task function, and returns a function that returns early if the task fails to complete before the timeout triggers.
@@ -26,7 +28,7 @@ var PassThrough = require('./PassThrough');
 * @param {taskFunction} task - the task to wrap in a timeout.
 * @param {number} ms - the timeout in ms.
 * @returns {taskFunction} a task
-* @memberof callback-patterns
+* @memberof async-patterns
 */
 function TimeOut(_1, _2) {
 	var task = _Callbackify(_1 || PassThrough);

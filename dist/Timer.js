@@ -15,7 +15,7 @@ var EMPTY_TASK = _Promisify(
 * @param {taskFunction} task - the task to wrap.
 * @param {string} label - an optional label to log.
 * @returns {taskFunction} a task
-* @memberof callback-patterns
+* @memberof async-patterns
 */
 function Timer(_1, _2) {
 	var task = _Callbackify(_1 || EMPTY_TASK);

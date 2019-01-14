@@ -11,22 +11,22 @@ var _false = _Promisify(
 
 /**
 * ```javascript
-*   let While = require('callback-patterns/While');
 *
-*   let task = While(
-*     (next, num) => next(null, num < 10),
-*     (next, num) => next(null, num + 1),
-*   );
+* let While = require('async-patterns/While');
 *
-*   let onDone = (err, result) => console.log(result);
+* let task = While(
+*   (num) => (num < 10),
+*   (num) => num + 1
+* );
 *
-*   task(onDone, 1); // prints 9, eventually
+* await task(1); // prints 10, eventually
+*
 * ```
 * While accepts two tasks and returns a task that conditionally executes some number of times.
 * @param {function} conditionTask - a condition task.
 * @param {function} loopTask - a task to run if the condition returns a truthy value.
 * @returns {function}
-* @memberof callback-patterns
+* @memberof async-patterns
 */
 function While(_1, _2) {
 	var conditionTask = _Callbackify(_1 != null ? _1 : _false);

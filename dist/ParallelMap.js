@@ -18,7 +18,7 @@ const Assert = require('./Assert');
 * @name ParallelMap
 * @param {function} task - the mapping task
 * @returns {function} an async wrapper function that takes in an array of requests, runs the task in parallel, once for each input in the array, and returns an array of results
-* @memberof aah
+* @memberof async-patterns
 */
 const ParallelMap = function (task) {
 	task = task || PassThrough;

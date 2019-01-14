@@ -11,7 +11,7 @@ var PassThrough = require('./PassThrough');
 * @param {taskFunction} task - the task to throttle
 * @param {number} limit - the number of instances that can run in parallel. default 1.
 * @returns {taskFunction} a task
-* @memberof callback-patterns
+* @memberof async-patterns
 */
 function Throttle(_1, _2) {
 	var task = _Callbackify(_1 || PassThrough);

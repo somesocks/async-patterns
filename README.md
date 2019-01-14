@@ -4,45 +4,307 @@
 
 ## API
 
-<a name="callback-patterns"></a>
+<a name="async-patterns"></a>
 
-## callback-patterns : <code>object</code>
+## async-patterns : <code>object</code>
 **Kind**: global namespace  
 
-* [callback-patterns](#callback-patterns) : <code>object</code>
-    * [.Delay(delay)](#callback-patterns.Delay) ⇒ <code>taskFunction</code>
-    * [.If(ifTask, thenTask, elseTask)](#callback-patterns.If) ⇒ <code>taskFunction</code>
-    * [.Logging(...statements)](#callback-patterns.Logging) ⇒ <code>taskFunction</code>
-    * [.Retry(task, options)](#callback-patterns.Retry) ⇒ <code>taskFunction</code>
-    * [.Throttle(task, limit)](#callback-patterns.Throttle) ⇒ <code>taskFunction</code>
-    * [.TimeIn(task, ms)](#callback-patterns.TimeIn) ⇒ <code>taskFunction</code>
-    * [.TimeOut(task, ms)](#callback-patterns.TimeOut) ⇒ <code>taskFunction</code>
-    * [.Timer(task, label)](#callback-patterns.Timer) ⇒ <code>taskFunction</code>
-    * [.While(conditionTask, loopTask)](#callback-patterns.While) ⇒ <code>function</code>
+* [async-patterns](#async-patterns) : <code>object</code>
+    * [.Callbackify](#async-patterns.Callbackify) ⇒ <code>function</code>
+    * [.CatchError](#async-patterns.CatchError) ⇒ <code>function</code>
+    * [.InOrder](#async-patterns.InOrder) ⇒ <code>function</code>
+    * [.InParallel](#async-patterns.InParallel) ⇒ <code>function</code>
+    * [.InSeries](#async-patterns.InSeries) ⇒ <code>function</code>
+    * [.ParallelFilter](#async-patterns.ParallelFilter) ⇒ <code>function</code>
+    * [.ParallelMap](#async-patterns.ParallelMap) ⇒ <code>function</code>
+    * [.PassThrough](#async-patterns.PassThrough)
+    * [.Promisify](#async-patterns.Promisify) ⇒ <code>function</code>
+    * [.Race](#async-patterns.Race) ⇒ <code>function</code>
+    * [.Assert(validator, message)](#async-patterns.Assert) ⇒ <code>taskFunction</code>
+    * [.Delay(delay)](#async-patterns.Delay) ⇒ <code>taskFunction</code>
+    * [.If(ifTask, thenTask, elseTask)](#async-patterns.If) ⇒ <code>taskFunction</code>
+    * [.Logging(...statements)](#async-patterns.Logging) ⇒ <code>taskFunction</code>
+    * [.Retry(task, options)](#async-patterns.Retry) ⇒ <code>taskFunction</code>
+    * [.Throttle(task, limit)](#async-patterns.Throttle) ⇒ <code>taskFunction</code>
+    * [.TimeIn(task, ms)](#async-patterns.TimeIn) ⇒ <code>taskFunction</code>
+    * [.TimeOut(task, ms)](#async-patterns.TimeOut) ⇒ <code>taskFunction</code>
+    * [.Timer(task, label)](#async-patterns.Timer) ⇒ <code>taskFunction</code>
+    * [.While(conditionTask, loopTask)](#async-patterns.While) ⇒ <code>function</code>
 
 
 * * *
 
-<a name="callback-patterns.Delay"></a>
+<a name="async-patterns.Callbackify"></a>
 
-### callback-patterns.Delay(delay) ⇒ <code>taskFunction</code>
+### async-patterns.Callbackify ⇒ <code>function</code>
 ```javascript
-  let Delay = require('callback-patterns/Delay');
-  let InSeries = require('callback-patterns/InSeries');
+	const task = Callbackify(
+		async (i) => i + 1
+	);
+
+	// logs 'res 1', eventually
+	task(
+		(err, res) => console.log('res', res),
+		0
+	);
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - a callback-expecting function  
+**Params**
+
+- task <code>function</code> - an async function
+
+
+* * *
+
+<a name="async-patterns.CatchError"></a>
+
+### async-patterns.CatchError ⇒ <code>function</code>
+```javascript
+  let task = CatchError(task);
+
+  const { error, result } = await task(request);
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - an async wrapper function around the task  
+**Params**
+
+- task <code>function</code> - an async function to wrap around with a catch wrapper.
+
+
+* * *
+
+<a name="async-patterns.InOrder"></a>
+
+### async-patterns.InOrder ⇒ <code>function</code>
+```javascript
+
+let InOrder = require('async-patterns/InOrder');
+
+	const task = InOrder(
+		async (i) => i + 1,
+		async (i) => i + 1,
+		async (i) => i + 1
+	);
+
+	await task(0); // returns 3
+
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - an async wrapper function that runs all of the tasks in order, calling each one with original request  
+**Params**
+
+- ...tasks <code>function</code> - any number of async tasks.
+
+
+* * *
+
+<a name="async-patterns.InParallel"></a>
+
+### async-patterns.InParallel ⇒ <code>function</code>
+```javascript
+
+let InParallel = require('async-patterns/InParallel');
+
+	const task = InParallel(
+		async (i) => i + 1,
+		async (i) => i + 2,
+		async (i) => i + 3
+	);
+
+	const results = await task(0); // results is [1, 2, 3]
+
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - an async wrapper function that runs all the tasks in parallel, and returns an array of results  
+**Params**
+
+- ...tasks <code>function</code> - any number of async tasks.
+
+
+* * *
+
+<a name="async-patterns.InSeries"></a>
+
+### async-patterns.InSeries ⇒ <code>function</code>
+```javascript
+
+let InSeries = require('async-patterns/InSeries');
+
+	const task = InSeries(
+		async (i) => i + 1,
+		async (i) => i + 1,
+		async (i) => i + 1
+	);
+
+	const results = await task(0); // results is 3
+
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - an async wrapper function that runs all of the tasks in series, calling each one with the results of the previous one  
+**Params**
+
+- ...tasks <code>function</code> - any number of async tasks.
+
+
+* * *
+
+<a name="async-patterns.ParallelFilter"></a>
+
+### async-patterns.ParallelFilter ⇒ <code>function</code>
+```javascript
+	const task = ParallelFilter(
+		async (val, i) => val % 2 === 0
+	);
+
+	const results = await task([0, 1, 2]); // results is [0, 2]
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - an async wrapper function that takes in an array of requests, runs the task in parallel, once for each input in the array, and returns an array of results  
+**Params**
+
+- task <code>function</code> - the filtering task
+
+
+* * *
+
+<a name="async-patterns.ParallelMap"></a>
+
+### async-patterns.ParallelMap ⇒ <code>function</code>
+```javascript
+	const task = ParallelMap(
+		async (val, i) => val + 1
+	);
+
+	const results = await task([0, 1, 2]); // results is [1, 2, 3]
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - an async wrapper function that takes in an array of requests, runs the task in parallel, once for each input in the array, and returns an array of results  
+**Params**
+
+- task <code>function</code> - the mapping task
+
+
+* * *
+
+<a name="async-patterns.PassThrough"></a>
+
+### async-patterns.PassThrough
+```javascript
+	const task = PassThrough;
+
+	const results = await task(0); // results is 0
+```
+
+PassThrough does nothing, just passes the request through as the result
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+
+* * *
+
+<a name="async-patterns.Promisify"></a>
+
+### async-patterns.Promisify ⇒ <code>function</code>
+```javascript
+	const task = Promisify(
+		(onDone, i) => onDone(
+			i === 0 ? new Error('i cant be 0') : null,
+			i + 1
+		),
+	);
+
+	const results = await task(1); // results is 2
+	const results2 = await taks(0); // throws 'i cant be 0 Error
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - an async function  
+**Params**
+
+- task <code>function</code> - a callback-expecting function
+
+
+* * *
+
+<a name="async-patterns.Race"></a>
+
+### async-patterns.Race ⇒ <code>function</code>
+```javascript
+	const task = Race(
+		async (i) => i + 1,
+		async (i) => i + 2,
+	);
+
+	const result = await task(1); // 2
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - an async task that resolves or rejects as soon as the first one of its "children" resolves or rejects  
+**Params**
+
+- ...tasks <code>function</code> - any number of async tasks
+
+
+* * *
+
+<a name="async-patterns.Assert"></a>
+
+### async-patterns.Assert(validator, message) ⇒ <code>taskFunction</code>
+```javascript
+  let Assert = require('async-patterns/Assert');
+  let InSeries = require('async-patterns/InSeries');
 
   let task = InSeries(
-    (next, num) => next(null, num),
-    Delay(100),
-    (next, num) => next(null, num + 1),
+    (num) => num,
+    Assert(
+      (num) => (num >= 0),
+      (num) => `${num} is less than zero`
+    ),
+    (num) => num,
   );
 
-  let onDone = (err, result) => console.log(err, result);
+  await task(1); // returns 1
 
-  task(onDone, 1); // prints null 1, after a 100 ms delay
+  await task(-1); // throws error
+
+```
+Builds an async assertion task.
+
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>taskFunction</code> - an assertion task  
+**Params**
+
+- validator <code>function</code> - a function that checks the arguments.
+- message <code>string</code> - an optional error message to throw if the assertion fails, or a message builder function.
+
+
+* * *
+
+<a name="async-patterns.Delay"></a>
+
+### async-patterns.Delay(delay) ⇒ <code>taskFunction</code>
+```javascript
+  let Delay = require('async-patterns/Delay');
+  let InSeries = require('async-patterns/InSeries');
+
+  let task = InSeries(
+    (num) => num + 1
+    Delay(100),
+  );
+
+  await task(1); // returns 2, after a 100ms delay
+
 ```
 Delay acts like PassThrough, but inserts a delay in the call.
 
-**Kind**: static method of [<code>callback-patterns</code>](#callback-patterns)  
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
 **Returns**: <code>taskFunction</code> - a delay task  
 **Params**
 
@@ -51,22 +313,21 @@ Delay acts like PassThrough, but inserts a delay in the call.
 
 * * *
 
-<a name="callback-patterns.If"></a>
+<a name="async-patterns.If"></a>
 
-### callback-patterns.If(ifTask, thenTask, elseTask) ⇒ <code>taskFunction</code>
+### async-patterns.If(ifTask, thenTask, elseTask) ⇒ <code>taskFunction</code>
 ```javascript
-  let If = require('callback-patterns/If');
+  let If = require('async-patterns/If');
 
   let logIfEven = If(
-    (next, num) => next(null, num % 2 === 0)
-    (next, num) => { console.log('is even!'); next(null, num); },
-    (next, num) => { console.log('is not even!'); next(null, num); },
+    (num) => (num % 2 === 0),
+    (num) => { console.log('is even!'); },
+    (num) => { console.log('is not even!'); }
   );
 
-  let onDone = (err, ...results) => console.log(results);
+  await logIfEven(1); // prints out 'is not even!' eventually
+  await logIfEven(2); // prints out 'is even!' eventually
 
-  logIfEven(null, 1); // prints out 'is not even!' eventually
-  logIfEven(null, 2); // prints out 'is even!' eventually
 ```
 If accepts up to three tasks,
 an 'if' task, a 'then' task, and lastly an 'else' task
@@ -74,7 +335,7 @@ note: by default, the ifTask, thenTask, and elseTask are PassThrough
 note: the ifTask can return multiple results,
 but only the first is checked for truthiness
 
-**Kind**: static method of [<code>callback-patterns</code>](#callback-patterns)  
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
 **Params**
 
 - ifTask <code>taskFunction</code> - a condition task.
@@ -84,13 +345,13 @@ but only the first is checked for truthiness
 
 * * *
 
-<a name="callback-patterns.Logging"></a>
+<a name="async-patterns.Logging"></a>
 
-### callback-patterns.Logging(...statements) ⇒ <code>taskFunction</code>
+### async-patterns.Logging(...statements) ⇒ <code>taskFunction</code>
 A logging utility.
 It passes the arguments received into all the statements, collects the results, and joins them together with newlines to build the final log statement
 
-**Kind**: static method of [<code>callback-patterns</code>](#callback-patterns)  
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
 **Returns**: <code>taskFunction</code> - a logging task  
 **Params**
 
@@ -99,12 +360,12 @@ It passes the arguments received into all the statements, collects the results, 
 
 * * *
 
-<a name="callback-patterns.Retry"></a>
+<a name="async-patterns.Retry"></a>
 
-### callback-patterns.Retry(task, options) ⇒ <code>taskFunction</code>
+### async-patterns.Retry(task, options) ⇒ <code>taskFunction</code>
 Wraps a task and attempts to retry if it throws an error, with an exponential backoff.
 
-**Kind**: static method of [<code>callback-patterns</code>](#callback-patterns)  
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
 **Returns**: <code>taskFunction</code> - a task  
 **Params**
 
@@ -116,13 +377,13 @@ Wraps a task and attempts to retry if it throws an error, with an exponential ba
 
 * * *
 
-<a name="callback-patterns.Throttle"></a>
+<a name="async-patterns.Throttle"></a>
 
-### callback-patterns.Throttle(task, limit) ⇒ <code>taskFunction</code>
+### async-patterns.Throttle(task, limit) ⇒ <code>taskFunction</code>
 Wraps a task and ensures that only X number of instances of the task can be run in parallel.
 Requests are queued up in an unbounded FIFO queue until they can be run.
 
-**Kind**: static method of [<code>callback-patterns</code>](#callback-patterns)  
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
 **Returns**: <code>taskFunction</code> - a task  
 **Params**
 
@@ -132,23 +393,25 @@ Requests are queued up in an unbounded FIFO queue until they can be run.
 
 * * *
 
-<a name="callback-patterns.TimeIn"></a>
+<a name="async-patterns.TimeIn"></a>
 
-### callback-patterns.TimeIn(task, ms) ⇒ <code>taskFunction</code>
+### async-patterns.TimeIn(task, ms) ⇒ <code>taskFunction</code>
 ```javascript
-  let TimeIn = require('callback-patterns/TimeIn');
+
+  let TimeIn = require('async-patterns/TimeIn');
 
   let task = TimeIn(
-    function(next, ...args) {},
+    async function (...args) {},
 			1000
   );
 
-  task(next, ...args);
+  await task(...args);
+
 ```
 
 TimeIn wraps a single task function, and returns a function that only returns after X ms.
 
-**Kind**: static method of [<code>callback-patterns</code>](#callback-patterns)  
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
 **Returns**: <code>taskFunction</code> - a task  
 **Params**
 
@@ -158,25 +421,27 @@ TimeIn wraps a single task function, and returns a function that only returns af
 
 * * *
 
-<a name="callback-patterns.TimeOut"></a>
+<a name="async-patterns.TimeOut"></a>
 
-### callback-patterns.TimeOut(task, ms) ⇒ <code>taskFunction</code>
+### async-patterns.TimeOut(task, ms) ⇒ <code>taskFunction</code>
 ```javascript
-  let TimeOut = require('callback-patterns/TimeOut');
 
-  let chain = TimeOut(
-    function(next, ...args) {},
+  let TimeOut = require('async-patterns/TimeOut');
+
+  let task = TimeOut(
+    async function (...args) {},
 			1000
   );
 
-  chain(next, ...args);
+  await task(...args);
+
 ```
 
 TimeOut wraps a single task function, and returns a function that returns early if the task fails to complete before the timeout triggers.
 
 NOTE: the timeout being triggered will not cancel the original task.
 
-**Kind**: static method of [<code>callback-patterns</code>](#callback-patterns)  
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
 **Returns**: <code>taskFunction</code> - a task  
 **Params**
 
@@ -186,12 +451,12 @@ NOTE: the timeout being triggered will not cancel the original task.
 
 * * *
 
-<a name="callback-patterns.Timer"></a>
+<a name="async-patterns.Timer"></a>
 
-### callback-patterns.Timer(task, label) ⇒ <code>taskFunction</code>
+### async-patterns.Timer(task, label) ⇒ <code>taskFunction</code>
 Wraps a task and logs how long it takes to finish, or fail.
 
-**Kind**: static method of [<code>callback-patterns</code>](#callback-patterns)  
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
 **Returns**: <code>taskFunction</code> - a task  
 **Params**
 
@@ -201,24 +466,24 @@ Wraps a task and logs how long it takes to finish, or fail.
 
 * * *
 
-<a name="callback-patterns.While"></a>
+<a name="async-patterns.While"></a>
 
-### callback-patterns.While(conditionTask, loopTask) ⇒ <code>function</code>
+### async-patterns.While(conditionTask, loopTask) ⇒ <code>function</code>
 ```javascript
-  let While = require('callback-patterns/While');
 
-  let task = While(
-    (next, num) => next(null, num < 10),
-    (next, num) => next(null, num + 1),
-  );
+let While = require('async-patterns/While');
 
-  let onDone = (err, result) => console.log(result);
+let task = While(
+  (num) => (num < 10),
+  (num) => num + 1
+);
 
-  task(onDone, 1); // prints 9, eventually
+await task(1); // prints 10, eventually
+
 ```
 While accepts two tasks and returns a task that conditionally executes some number of times.
 
-**Kind**: static method of [<code>callback-patterns</code>](#callback-patterns)  
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
 **Params**
 
 - conditionTask <code>function</code> - a condition task.

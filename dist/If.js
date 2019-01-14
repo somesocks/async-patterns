@@ -8,18 +8,17 @@ var PassThrough = require('./PassThrough');
 
 /**
 * ```javascript
-*   let If = require('callback-patterns/If');
+*   let If = require('async-patterns/If');
 *
 *   let logIfEven = If(
-*     (next, num) => next(null, num % 2 === 0)
-*     (next, num) => { console.log('is even!'); next(null, num); },
-*     (next, num) => { console.log('is not even!'); next(null, num); },
+*     (num) => (num % 2 === 0),
+*     (num) => { console.log('is even!'); },
+*     (num) => { console.log('is not even!'); }
 *   );
 *
-*   let onDone = (err, ...results) => console.log(results);
+*   await logIfEven(1); // prints out 'is not even!' eventually
+*   await logIfEven(2); // prints out 'is even!' eventually
 *
-*   logIfEven(null, 1); // prints out 'is not even!' eventually
-*   logIfEven(null, 2); // prints out 'is even!' eventually
 * ```
 * If accepts up to three tasks,
 * an 'if' task, a 'then' task, and lastly an 'else' task
@@ -30,7 +29,7 @@ var PassThrough = require('./PassThrough');
 * @param {taskFunction} thenTask - a task to run when ifTask returns a truthy value.
 * @param {taskFunction} elseTask - a task to run when ifTask returns a falsy value.
 * @returns {taskFunction}
-* @memberof callback-patterns
+* @memberof async-patterns
 */
 function If(_1, _2, _3) {
 	var conditionTask = Callbackify(_1 != null ? _1 : PassThrough);

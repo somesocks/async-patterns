@@ -14,7 +14,7 @@ var EMPTY_TASK = _Promisify(
 * @param {object} options.timeout - maximum time to attempt retries.
 * @param {object} options.retries - maximum number of retries to attempt.
 * @returns {taskFunction} a task
-* @memberof callback-patterns
+* @memberof async-patterns
 */
 function Retry(task, options) {
 	task = _Callbackify(task || EMPTY_TASK);

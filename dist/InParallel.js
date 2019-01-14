@@ -3,13 +3,17 @@ const PassThrough = require('./PassThrough');
 
 /**
 * ```javascript
-	const task = InParallel(
-		async (i) => i + 1,
-		async (i) => i + 2,
-		async (i) => i + 3
-	);
-
-	const results = await task(0); // results is [1, 2, 3]
+*
+* let InParallel = require('async-patterns/InParallel');
+*
+*	const task = InParallel(
+*		async (i) => i + 1,
+*		async (i) => i + 2,
+*		async (i) => i + 3
+*	);
+*
+*	const results = await task(0); // results is [1, 2, 3]
+*
 * ```
 *
 * @name InParallel

@@ -11,7 +11,7 @@ const PassThrough = require('./PassThrough');
 * @name CatchError
 * @param {function} task - an async function to wrap around with a catch wrapper.
 * @returns {function} an async wrapper function around the task
-* @memberof aah
+* @memberof async-patterns
 */
 const CatchError = function CatchError(task) {
 	task = task || PassThrough;

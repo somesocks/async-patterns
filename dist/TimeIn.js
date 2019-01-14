@@ -9,14 +9,16 @@ var PassThrough = require('./PassThrough');
 /**
 *
 * ```javascript
-*   let TimeIn = require('callback-patterns/TimeIn');
+*
+*   let TimeIn = require('async-patterns/TimeIn');
 *
 *   let task = TimeIn(
-*     function(next, ...args) {},
+*     async function (...args) {},
 *			1000
 *   );
 *
-*   task(next, ...args);
+*   await task(...args);
+*
 * ```
 *
 * TimeIn wraps a single task function, and returns a function that only returns after X ms.
@@ -24,7 +26,7 @@ var PassThrough = require('./PassThrough');
 * @param {taskFunction} task - the task to wrap in a timeout.
 * @param {number} ms - the timein in ms.
 * @returns {taskFunction} a task
-* @memberof callback-patterns
+* @memberof async-patterns
 */
 function TimeIn(_1, _2) {
 	var task = _Callbackify(_1 || PassThrough);

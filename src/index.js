@@ -1,4 +1,4 @@
-/** @namespace callback-patterns */
+/** @namespace async-patterns */
 
 module.exports = {
 	Assert: require('./Assert'),
