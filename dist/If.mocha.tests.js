@@ -1,57 +1,18 @@
-/* eslint-env mocha, node */
-
-const { Assert, InSeries, If, Callbackify } = require('./');
-
-describe('If', () => {
-
-	it('test with 0 handlers',
-		Callbackify(
-			InSeries(
-				() => true,
-				If()
-			)
-		)
-	);
-
-	it('catches errors', (done) => {
-		const task = Callbackify(
-			If(
-				() => true,
-				() => { throw new Error('error'); }
-			)
-		);
-
-		task((err, res) => done(err != null ? null : err));
-	});
-
-	it(
-		'then works',
-		Callbackify(
-			() => 1,
-			InSeries(
-				(i) => i > 0,
-				() => true,
-				() => false
-			),
-			Assert(
-				(val) => val === true
-			)
-		)
-	);
-
-	it(
-		'else works',
-		Callbackify(
-			() => -1,
-			InSeries(
-				(i) => i > 0,
-				() => true,
-				() => false
-			),
-			Assert(
-				(val) => val === false
-			)
-		)
-	);
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var Assert_1 = __importDefault(require("./Assert"));
+var Callbackify_1 = __importDefault(require("./Callbackify"));
+var InSeries_1 = __importDefault(require("./InSeries"));
+var If_1 = __importDefault(require("./If"));
+describe('If', function () {
+    it('test with 0 handlers', Callbackify_1.default(InSeries_1.default(function () { return true; }, If_1.default())));
+    it('catches errors', function (done) {
+        var task = Callbackify_1.default(If_1.default(function () { return true; }, function () { throw new Error('error'); }));
+        task(function (err, res) { return done(err != null ? null : err); });
+    });
+    it('then works', Callbackify_1.default(InSeries_1.default(function () { return 1; }, If_1.default(function (i) { return i > 0; }, function () { return true; }, function () { return false; }), Assert_1.default(function (val) { return val === true; }))));
+    it('else works', Callbackify_1.default(InSeries_1.default(function () { return -1; }, If_1.default(function (i) { return i > 0; }, function () { return true; }, function () { return false; }), Assert_1.default(function (val) { return val === false; }))));
 });

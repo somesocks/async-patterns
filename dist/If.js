@@ -1,11 +1,11 @@
-/* eslint-env node */
-
-var _If = require('callback-patterns/If');
-
-var Promisify = require('./Promisify');
-var Callbackify = require('./Callbackify');
-var PassThrough = require('./PassThrough');
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var If_1 = __importDefault(require("callback-patterns/If"));
+var Promisify_1 = __importDefault(require("./Promisify"));
+var Callbackify_1 = __importDefault(require("./Callbackify"));
+var PassThrough_1 = __importDefault(require("./PassThrough"));
 /**
 * ```javascript
 *   let If = require('async-patterns/If');
@@ -32,14 +32,9 @@ var PassThrough = require('./PassThrough');
 * @memberof async-patterns
 */
 function If(_1, _2, _3) {
-	var conditionTask = Callbackify(_1 != null ? _1 : PassThrough);
-	var thenTask = Callbackify(_2 != null ? _2 : PassThrough);
-	var elseTask = Callbackify(_3 != null ? _3 : PassThrough);
-
-	return Promisify(_If(conditionTask, thenTask, elseTask));
+    var conditionTask = Callbackify_1.default(_1 != null ? _1 : PassThrough_1.default);
+    var thenTask = Callbackify_1.default(_2 != null ? _2 : PassThrough_1.default);
+    var elseTask = Callbackify_1.default(_3 != null ? _3 : PassThrough_1.default);
+    return Promisify_1.default(If_1.default(conditionTask, thenTask, elseTask));
 }
-
-
-If.default = If;
-
 module.exports = If;

@@ -1,15 +1,13 @@
-/* eslint-env node */
-
-var _Promisify = require('./Promisify');
-var _Callbackify = require('./Callbackify');
-var _Timer = require('callback-patterns/Timer');
-
-var PassThrough = require('./PassThrough');
-
-var EMPTY_TASK = _Promisify(
-	function (next) { next(); }
-);
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var Promisify_1 = __importDefault(require("./Promisify"));
+var Callbackify_1 = __importDefault(require("./Callbackify"));
+var Timer_1 = __importDefault(require("callback-patterns/Timer"));
+// quick hack to fix a bad type declaration from callback-patterns/Timer
+var _Timer2 = Timer_1.default;
+var EMPTY_TASK = Promisify_1.default(function (next) { next(); });
 /**
 * Wraps a task and logs how long it takes to finish, or fail.
 * @param {taskFunction} task - the task to wrap.
@@ -18,14 +16,8 @@ var EMPTY_TASK = _Promisify(
 * @memberof async-patterns
 */
 function Timer(_1, _2) {
-	var task = _Callbackify(_1 || EMPTY_TASK);
-	var label = _2;
-
-	return _Promisify(
-		_Timer(task, label)
-	);
+    var task = Callbackify_1.default(_1 || EMPTY_TASK);
+    var label = _2;
+    return Promisify_1.default(_Timer2(task, label));
 }
-
-Timer.default = Timer;
-
 module.exports = Timer;

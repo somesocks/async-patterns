@@ -1,5 +1,7 @@
-
 NPM=pnpm
+
+TASKS=./tasks
+NODE_BIN=./node_modules/.bin
 
 .PHONY: default setup help
 
@@ -23,48 +25,35 @@ help:
 ##		make setup - setup for local development
 ##
 setup:
-	$(NPM) install
-
-build-src:
-	$(NPM) run cmd-build-src
-
-build-pack: build-src
-	cp ./.npmignore ./dist
-	cp ./package.json ./dist
-
-build-docs:
-	$(NPM) run cmd-build-docs
-	cp ./README.md ./dist
+	sh $(TASKS)/install.sh
 
 
 ##		make build - build the package
 ##
-build: build-src build-pack build-docs
+build:
+	sh $(TASKS)/build.sh
 
 
-
-test-cases:
-	$(NPM) run cmd-test-cases -- $(MOCHA)
-
-test-eslint:
-	$(NPM) run cmd-test-eslint -- $(ESLINT)
 
 ##		make test - run test cases against the built package
 ##
-test: test-cases test-eslint
+test: test-mocha
+
+test-mocha:
+	sh $(TASKS)/test-mocha.sh
+
 
 
 
 ##		make package-check - list the files that will be present in the package
 ##
 package-check:
-	cd ./dist && $(NPM) pack --dry-run
-	cd ./dist && $(NPM) publish --dry-run
+	sh $(TASKS)/package-check.sh
 
 ##		make package-publish - publish the current dist dir
 ##
 package-publish:
-	cd ./dist && $(NPM) publish
+	sh $(TASKS)/package-publish.sh
 
 ##
 ##

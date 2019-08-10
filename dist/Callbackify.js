@@ -1,17 +1,19 @@
-
-const PassThrough = require('./PassThrough');
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var PassThrough_1 = __importDefault(require("./PassThrough"));
 /**
 * ```javascript
-	const task = Callbackify(
-		async (i) => i + 1
-	);
+    const task = Callbackify(
+        async (i) => i + 1
+    );
 
-	// logs 'res 1', eventually
-	task(
-		(err, res) => console.log('res', res),
-		0
-	);
+    // logs 'res 1', eventually
+    task(
+        (err, res) => console.log('res', res),
+        0
+    );
 * ```
 *
 * @name Callbackify
@@ -19,16 +21,14 @@ const PassThrough = require('./PassThrough');
 * @returns {function} a callback-expecting function
 * @memberof async-patterns
 */
-const Callbackify = function (task) {
-	task = task || PassThrough;
-
-	return function (callback, request) {
-		let promise = task(request);
-		promise = promise instanceof Promise ? promise : Promise.resolve(promise);
-		promise
-			.then(result => callback(null, result))
-			.catch(error => callback(error));
-	};
+var Callbackify = function (task) {
+    var task2 = task || PassThrough_1.default;
+    return function (callback, request) {
+        var promise = task2(request);
+        promise = promise instanceof Promise ? promise : Promise.resolve(promise);
+        promise
+            .then(function (result) { return callback(null, result); })
+            .catch(function (error) { return callback(error); });
+    };
 };
-
 module.exports = Callbackify;

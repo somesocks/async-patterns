@@ -1,11 +1,11 @@
-/* eslin-env node */
-
-var _Promisify = require('./Promisify');
-var _Callbackify = require('./Callbackify');
-var _TimeOut = require('callback-patterns/TimeOut');
-
-var PassThrough = require('./PassThrough');
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var Promisify_1 = __importDefault(require("./Promisify"));
+var Callbackify_1 = __importDefault(require("./Callbackify"));
+var PassThrough_1 = __importDefault(require("./PassThrough"));
+var TimeOut_1 = __importDefault(require("callback-patterns/TimeOut"));
 /**
 *
 * ```javascript
@@ -31,13 +31,8 @@ var PassThrough = require('./PassThrough');
 * @memberof async-patterns
 */
 function TimeOut(_1, _2) {
-	var task = _Callbackify(_1 || PassThrough);
-	var ms = _2 || 1000;
-
-	return _Promisify(
-		_TimeOut(task, ms)
-	);
+    var task = Callbackify_1.default(_1 || PassThrough_1.default);
+    var ms = _2 || 1000;
+    return Promisify_1.default(TimeOut_1.default(task, ms));
 }
-
-TimeOut.default = TimeOut;
 module.exports = TimeOut;

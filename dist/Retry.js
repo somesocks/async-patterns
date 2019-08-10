@@ -1,12 +1,11 @@
-
-var _Promisify = require('./Promisify');
-var _Callbackify = require('./Callbackify');
-var _Retry = require('callback-patterns/Retry');
-
-var EMPTY_TASK = _Promisify(
-	function (next) { next(); }
-);
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var Promisify_1 = __importDefault(require("./Promisify"));
+var Callbackify_1 = __importDefault(require("./Callbackify"));
+var Retry_1 = __importDefault(require("callback-patterns/Retry"));
+var EMPTY_TASK = Promisify_1.default(function (next) { next(); });
 /**
 * Wraps a task and attempts to retry if it throws an error, with an exponential backoff.
 * @param {taskFunction} task - the task to wrap.
@@ -17,12 +16,7 @@ var EMPTY_TASK = _Promisify(
 * @memberof async-patterns
 */
 function Retry(task, options) {
-	task = _Callbackify(task || EMPTY_TASK);
-
-	return _Promisify(
-		_Retry(task, options)
-	);
+    task = Callbackify_1.default(task || EMPTY_TASK);
+    return Promisify_1.default(Retry_1.default(task, options));
 }
-
-Retry.default = Retry;
 module.exports = Retry;

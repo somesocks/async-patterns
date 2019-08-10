@@ -1,9 +1,10 @@
-/* eslint-env node */
-
-var _Promisify = require('./Promisify');
-var _Callbackify = require('./Callbackify');
-var _Delay = require('callback-patterns/Delay');
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var Promisify_1 = __importDefault(require("./Promisify"));
+var Delay_1 = __importDefault(require("callback-patterns/Delay"));
+var DEFAULT_DELAY = 1000;
 /**
 *
 * ```javascript
@@ -24,9 +25,6 @@ var _Delay = require('callback-patterns/Delay');
 * @memberof async-patterns
 */
 function Delay(_1) {
-	return _Promisify(_Delay(_1));
+    return Promisify_1.default(Delay_1.default(_1 || DEFAULT_DELAY));
 }
-
-Delay.default = Delay;
-
 module.exports = Delay;

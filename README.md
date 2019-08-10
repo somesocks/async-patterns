@@ -20,10 +20,13 @@
     * [.PassThrough](#async-patterns.PassThrough)
     * [.Promisify](#async-patterns.Promisify) ⇒ <code>function</code>
     * [.Race](#async-patterns.Race) ⇒ <code>function</code>
+    * [.unstable](#async-patterns.unstable) : <code>object</code>
+        * [.TraceError(task)](#async-patterns.unstable.TraceError) ⇒ <code>function</code>
     * [.Assert(validator, message)](#async-patterns.Assert) ⇒ <code>taskFunction</code>
     * [.Delay(delay)](#async-patterns.Delay) ⇒ <code>taskFunction</code>
     * [.If(ifTask, thenTask, elseTask)](#async-patterns.If) ⇒ <code>taskFunction</code>
     * [.Logging(...statements)](#async-patterns.Logging) ⇒ <code>taskFunction</code>
+    * [.Memoize(task, [keyFunction])](#async-patterns.Memoize) ⇒ <code>AsyncTask</code>
     * [.Retry(task, options)](#async-patterns.Retry) ⇒ <code>taskFunction</code>
     * [.Throttle(task, limit)](#async-patterns.Throttle) ⇒ <code>taskFunction</code>
     * [.TimeIn(task, ms)](#async-patterns.TimeIn) ⇒ <code>taskFunction</code>
@@ -38,15 +41,15 @@
 
 ### async-patterns.Callbackify ⇒ <code>function</code>
 ```javascript
-	const task = Callbackify(
-		async (i) => i + 1
-	);
+    const task = Callbackify(
+        async (i) => i + 1
+    );
 
-	// logs 'res 1', eventually
-	task(
-		(err, res) => console.log('res', res),
-		0
-	);
+    // logs 'res 1', eventually
+    task(
+        (err, res) => console.log('res', res),
+        0
+    );
 ```
 
 **Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
@@ -158,11 +161,11 @@ let InSeries = require('async-patterns/InSeries');
 
 ### async-patterns.ParallelFilter ⇒ <code>function</code>
 ```javascript
-	const task = ParallelFilter(
-		async (val, i) => val % 2 === 0
-	);
+    const task = ParallelFilter(
+        async (val, i) => val % 2 === 0
+    );
 
-	const results = await task([0, 1, 2]); // results is [0, 2]
+    const results = await task([0, 1, 2]); // results is [0, 2]
 ```
 
 **Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
@@ -178,11 +181,11 @@ let InSeries = require('async-patterns/InSeries');
 
 ### async-patterns.ParallelMap ⇒ <code>function</code>
 ```javascript
-	const task = ParallelMap(
-		async (val, i) => val + 1
-	);
+    const task = ParallelMap(
+        async (val, i) => val + 1
+    );
 
-	const results = await task([0, 1, 2]); // results is [1, 2, 3]
+    const results = await task([0, 1, 2]); // results is [1, 2, 3]
 ```
 
 **Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
@@ -198,9 +201,9 @@ let InSeries = require('async-patterns/InSeries');
 
 ### async-patterns.PassThrough
 ```javascript
-	const task = PassThrough;
+    const task = PassThrough;
 
-	const results = await task(0); // results is 0
+    const results = await task(0); // results is 0
 ```
 
 PassThrough does nothing, just passes the request through as the result
@@ -213,15 +216,15 @@ PassThrough does nothing, just passes the request through as the result
 
 ### async-patterns.Promisify ⇒ <code>function</code>
 ```javascript
-	const task = Promisify(
-		(onDone, i) => onDone(
-			i === 0 ? new Error('i cant be 0') : null,
-			i + 1
-		),
-	);
+    const task = Promisify(
+        (onDone, i) => onDone(
+            i === 0 ? new Error('i cant be 0') : null,
+            i + 1
+        ),
+    );
 
-	const results = await task(1); // results is 2
-	const results2 = await taks(0); // throws 'i cant be 0 Error
+    const results = await task(1); // results is 2
+    const results2 = await taks(0); // throws 'i cant be 0 Error
 ```
 
 **Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
@@ -237,12 +240,12 @@ PassThrough does nothing, just passes the request through as the result
 
 ### async-patterns.Race ⇒ <code>function</code>
 ```javascript
-	const task = Race(
-		async (i) => i + 1,
-		async (i) => i + 2,
-	);
+    const task = Race(
+        async (i) => i + 1,
+        async (i) => i + 2,
+    );
 
-	const result = await task(1); // 2
+    const result = await task(1); // 2
 ```
 
 **Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
@@ -250,6 +253,31 @@ PassThrough does nothing, just passes the request through as the result
 **Params**
 
 - ...tasks <code>function</code> - any number of async tasks
+
+
+* * *
+
+<a name="async-patterns.unstable"></a>
+
+### async-patterns.unstable : <code>object</code>
+**Kind**: static namespace of [<code>async-patterns</code>](#async-patterns)  
+
+* * *
+
+<a name="async-patterns.unstable.TraceError"></a>
+
+#### unstable.TraceError(task) ⇒ <code>function</code>
+TraceError is an experimental wrapper that attempts to make errors more informative.
+It does this by appending extra information to the stack of any error thrown in the task.
+
+NOTE: TraceError is marked as 'unstable' as stack traces in JS are not standardized,
+so it may not always provide useful information.
+
+**Kind**: static method of [<code>unstable</code>](#async-patterns.unstable)  
+**Returns**: <code>function</code> - a wrapper function that modifies the stack trace of any errors thrown within  
+**Params**
+
+- task <code>function</code> - a task function to wrap
 
 
 * * *
@@ -356,6 +384,29 @@ It passes the arguments received into all the statements, collects the results, 
 **Params**
 
 - ...statements <code>function</code> - any number of logging values.  Functions are called with the calling arguments, everything else is passed directly to
+
+
+* * *
+
+<a name="async-patterns.Memoize"></a>
+
+### async-patterns.Memoize(task, [keyFunction]) ⇒ <code>AsyncTask</code>
+Memoize builds a wrapper function that caches results of previous executions.
+As a result, repeated calls to Memoize may be much faster, if the request hits the cache.
+
+NOTE: As of now, there are no cache eviction mechanisms.
+  You should try to use Memoized functions in a 'disposable' way as a result
+
+NOTE: Memoize is not 'thread-safe' currently.  If two calls are made for the same object currently,
+  two calls to the wrapped function will be made
+
+NOTE: Memoize will cache errors as well as results.
+
+**Kind**: static method of [<code>async-patterns</code>](#async-patterns)  
+**Params**
+
+- task <code>AsyncTask</code> - the task function to memoize.
+- [keyFunction] <code>function</code> - a function that synchronously generates a key for a request.
 
 
 * * *

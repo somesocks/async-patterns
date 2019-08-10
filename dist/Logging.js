@@ -1,9 +1,9 @@
-/* eslint-env node */
-
-var _Promisify = require('./Promisify');
-var _Callbackify = require('./Callbackify');
-var _Logging = require('callback-patterns/Logging');
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var Promisify_1 = __importDefault(require("./Promisify"));
+var Logging_1 = __importDefault(require("callback-patterns/Logging"));
 /**
 * A logging utility.
 * It passes the arguments received into all the statements, collects the results, and joins them together with newlines to build the final log statement
@@ -11,10 +11,11 @@ var _Logging = require('callback-patterns/Logging');
 * @returns {taskFunction} a logging task
 * @memberof async-patterns
 */
-function Logging(_1) {
-	return _Promisify(_Logging.apply(this, arguments));
+function Logging() {
+    var args = [];
+    for (var _i = 0; _i < arguments.length; _i++) {
+        args[_i] = arguments[_i];
+    }
+    return Promisify_1.default(Logging_1.default.apply(this, args));
 }
-
-Logging.default = Logging;
-
 module.exports = Logging;
