@@ -9,6 +9,7 @@ import InOrder from './InOrder';
 import InParallel from './InParallel';
 import InSeries from './InSeries';
 import Logging from './Logging';
+import LogError from './LogError';
 import ParallelFilter from './ParallelFilter';
 import ParallelMap from './ParallelMap';
 import PassThrough from './PassThrough';

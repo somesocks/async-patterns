@@ -15,6 +15,7 @@
     * [.InOrder](#async-patterns.InOrder) ⇒ <code>function</code>
     * [.InParallel](#async-patterns.InParallel) ⇒ <code>function</code>
     * [.InSeries](#async-patterns.InSeries) ⇒ <code>function</code>
+    * [.LogError](#async-patterns.LogError) ⇒ <code>function</code>
     * [.ParallelFilter](#async-patterns.ParallelFilter) ⇒ <code>function</code>
     * [.ParallelMap](#async-patterns.ParallelMap) ⇒ <code>function</code>
     * [.PassThrough](#async-patterns.PassThrough)
@@ -153,6 +154,25 @@ let InSeries = require('async-patterns/InSeries');
 **Params**
 
 - ...tasks <code>function</code> - any number of async tasks.
+
+
+* * *
+
+<a name="async-patterns.LogError"></a>
+
+### async-patterns.LogError ⇒ <code>function</code>
+```javascript
+  let task = LogError(task);
+
+  // if an error occurs, it will be logged before getting re-thrown here
+  const result = await task(request);
+```
+
+**Kind**: static property of [<code>async-patterns</code>](#async-patterns)  
+**Returns**: <code>function</code> - an async wrapper function around the task  
+**Params**
+
+- task <code>function</code> - an async function to wrap around with a error logging wrapper.
 
 
 * * *
