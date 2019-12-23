@@ -1,7 +1,6 @@
 NPM=pnpm
 
 TASKS=./tasks
-NODE_BIN=./node_modules/.bin
 
 .PHONY: default setup help
 

@@ -43,7 +43,9 @@ function Assert(validator, message ?: any) : AsyncTask {
 
 	return async function (request) {
 		if(!validator(request)) {
-			throw new Error(message(request));
+			let err = message(request);
+			err = err instanceof Error ? err : new Error(err);
+			throw err;
 		}
 		return request;
 	};

@@ -20,4 +20,5 @@ import Timer from './Timer';
 import While from './While';
 import Retry from './Retry';
 import * as unstable from './unstable';
-export { Assert, Callbackify, CatchError, Delay, If, InOrder, InParallel, InSeries, Logging, ParallelFilter, ParallelMap, PassThrough, Promisify, Race, Throttle, TimeIn, TimeOut, Timer, While, Retry, unstable, };
+import * as testing from './testing';
+export { Assert, Callbackify, CatchError, Delay, If, InOrder, InParallel, InSeries, Logging, ParallelFilter, ParallelMap, PassThrough, Promisify, Race, Throttle, TimeIn, TimeOut, Timer, While, Retry, unstable, testing, };

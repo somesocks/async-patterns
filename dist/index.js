@@ -53,3 +53,5 @@ var Retry_1 = __importDefault(require("./Retry"));
 exports.Retry = Retry_1.default;
 var unstable = __importStar(require("./unstable"));
 exports.unstable = unstable;
+var testing = __importStar(require("./testing"));
+exports.testing = testing;

@@ -23,6 +23,7 @@ import While from './While';
 import Retry from './Retry';
 
 import * as unstable from './unstable';
+import * as testing from './testing';
 
 export {
 	Assert,
@@ -47,4 +48,5 @@ export {
 	Retry,
 
 	unstable,
+	testing,
 };

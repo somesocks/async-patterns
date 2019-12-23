@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Assert_1 = __importDefault(require("./Assert"));
+var CatchError_1 = __importDefault(require("./CatchError"));
 var Callbackify_1 = __importDefault(require("./Callbackify"));
 var InSeries_1 = __importDefault(require("./InSeries"));
 var optional_1 = __importDefault(require("vet/optional"));
@@ -29,4 +30,13 @@ describe('Assert', function () {
         }));
         task(done);
     });
+    it('Re-throws error', Callbackify_1.default(InSeries_1.default(CatchError_1.default(Assert_1.default(function () { return false; }, // always fail,
+    function () {
+        var err = new Error('foo');
+        err.foo = true;
+        return err;
+    })), Assert_1.default(function (_a) {
+        var error = _a.error;
+        return error.foo === true;
+    }, 'incorrect error re-thrown'))));
 });

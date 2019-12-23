@@ -14,7 +14,7 @@ import _Logging from 'callback-patterns/Logging';
 * @memberof async-patterns
 */
 function Logging(this : any, ...args : any[]) : AsyncTask {
-	return _Promisify(_Logging.apply(this, args));
+	return _Promisify(_Logging.apply(this, args as any));
 }
 
 export = Logging;

@@ -72,9 +72,12 @@ function Assert(validator, message) {
     message = errorWrapper(message);
     return function (request) {
         return __awaiter(this, void 0, void 0, function () {
+            var err;
             return __generator(this, function (_a) {
                 if (!validator(request)) {
-                    throw new Error(message(request));
+                    err = message(request);
+                    err = err instanceof Error ? err : new Error(err);
+                    throw err;
                 }
                 return [2 /*return*/, request];
             });

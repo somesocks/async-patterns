@@ -1,13 +1,14 @@
 dependencies:
-  callback-patterns: 1.6.2
+  callback-patterns: 2.3.0
 devDependencies:
   '@types/mocha': 5.2.7
   chai: 4.2.0
   jsdoc-to-markdown: 4.0.1
   mocha: 5.1.1
+  ping: 0.2.2
   typescript: 3.5.3
   vet: 2.5.1
-lockfileVersion: 5
+lockfileVersion: 5.1
 packages:
   /@types/mocha/5.2.7:
     dev: true
@@ -83,12 +84,13 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-4TgWfe9SF+bUy5cCql8gWHqKNrviufNwSYxLjf2utB0pY4+bdcuFwMmY1hDB+67Gz/L1vmhFNhePAjJTFBtV+Q==
-  /callback-patterns/1.6.2:
+  /callback-patterns/2.3.0:
     dependencies:
       setimmediate: 1.0.5
+      tiny-lru: 7.0.2
     dev: false
     resolution:
-      integrity: sha512-i1oIYA7BtXYB5GuZDtvzaKX9bFlMguMLC6rHstyCuGwwzfgue/dWSIr+AFSSlyPkm9KghKuAw3HmhUidz9WBqg==
+      integrity: sha512-3drqohsA26B1FdDhUEY9T7LQVIqeQipgiTtWoLAGyajLw1h+npioSogJIfOSMl7qbWF/4qpPYm4dDOqVyxDqqw==
   /catharsis/0.8.11:
     dependencies:
       lodash: 4.17.15
@@ -515,6 +517,22 @@ packages:
     dev: true
     resolution:
       integrity: sha1-uULm1L3mUwBe9rcTYd74cn0GReA=
+  /ping/0.2.2:
+    dependencies:
+      q: 1.5.1
+      underscore: 1.9.1
+    dev: true
+    engines:
+      node: '>=0.8'
+    resolution:
+      integrity: sha1-GA+3UIwdx0eThJvONcgHP5llvOI=
+  /q/1.5.1:
+    dev: true
+    engines:
+      node: '>=0.6.0'
+      teleport: '>=0.2.0'
+    resolution:
+      integrity: sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
   /reduce-extract/1.0.0:
     dependencies:
       test-value: 1.1.0
@@ -644,6 +662,12 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-sVACdAWcZkSU9x7AOmJo5TqE+GyNJknHaHsMrR6ZnhjVlVN9Yx6FjHrsKZ3BjIpPCT68zYesPWkakrNupwfOTQ==
+  /tiny-lru/7.0.2:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-cmc9OOwmnAJtyFBYaznKR3abypEhWecarFrvS5db6qwSgoaDUWV0JX+mdh6B9wN60Wux3+gE1vjzxkoqxFBjqw==
   /type-detect/4.0.8:
     dev: true
     engines:
@@ -682,6 +706,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI=
+  /underscore/1.9.1:
+    dev: true
+    resolution:
+      integrity: sha512-5/4etnCkd9c8gwgowi5/om/mYO5ajCaOgdzj/oW+0eQV9WxKBDZw5+ycmKmeaTXjInS/W0BzpGLo2xR2aBwZdg==
   /vet/2.5.1:
     dev: true
     resolution:
@@ -723,9 +751,10 @@ packages:
       integrity: sha1-+mv3YqYKQT+z3Y9LA8WyaSONMI8=
 specifiers:
   '@types/mocha': ^5.2.7
-  callback-patterns: ^1.6.2
+  callback-patterns: 2.3.0
   chai: ^4.0.2
   jsdoc-to-markdown: ^4.0.1
   mocha: 5.1.1
+  ping: ^0.2.2
   typescript: ^3.5.3
   vet: 2.5.1

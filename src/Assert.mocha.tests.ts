@@ -51,4 +51,26 @@ describe('Assert', () => {
 		task(done);
 	});
 
+	it(
+		'Re-throws error',
+		Callbackify(
+			InSeries(
+				CatchError(
+					Assert(
+						() => false, // always fail,
+						() => {
+							const err : any = new Error('foo');
+							err.foo = true;
+							return err;
+						}
+					)
+				),
+				Assert(
+					({ error }) => error.foo === true,
+					'incorrect error re-thrown'
+				)
+			)
+		)
+	);
+
 });
