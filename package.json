@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/somesocks/async-patterns",
   "dependencies": {
-    "callback-patterns": "2.3.0"
+    "callback-patterns": "2.4.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",

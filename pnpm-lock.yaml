@@ -1,5 +1,5 @@
 dependencies:
-  callback-patterns: 2.3.0
+  callback-patterns: 2.4.0
 devDependencies:
   '@types/mocha': 5.2.7
   chai: 4.2.0
@@ -84,13 +84,13 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-4TgWfe9SF+bUy5cCql8gWHqKNrviufNwSYxLjf2utB0pY4+bdcuFwMmY1hDB+67Gz/L1vmhFNhePAjJTFBtV+Q==
-  /callback-patterns/2.3.0:
+  /callback-patterns/2.4.0:
     dependencies:
       setimmediate: 1.0.5
       tiny-lru: 7.0.2
     dev: false
     resolution:
-      integrity: sha512-3drqohsA26B1FdDhUEY9T7LQVIqeQipgiTtWoLAGyajLw1h+npioSogJIfOSMl7qbWF/4qpPYm4dDOqVyxDqqw==
+      integrity: sha512-7mELAJ/TltcCbnpkc21a38Qv9dFRI7GTwy4fHvjyWPvKQfzj6wC2iWwtmyRDg6SqOEm/vDpMwO7YgOTbG/vfqA==
   /catharsis/0.8.11:
     dependencies:
       lodash: 4.17.15
@@ -751,7 +751,7 @@ packages:
       integrity: sha1-+mv3YqYKQT+z3Y9LA8WyaSONMI8=
 specifiers:
   '@types/mocha': ^5.2.7
-  callback-patterns: 2.3.0
+  callback-patterns: 2.4.0
   chai: ^4.0.2
   jsdoc-to-markdown: ^4.0.1
   mocha: 5.1.1
