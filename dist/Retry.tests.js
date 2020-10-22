@@ -1,32 +1,53 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-var Retry_1 = __importDefault(require("./Retry"));
-describe('Retry', function () {
-    it('test with 0 handlers', function (done) {
-        Retry_1.default()(done);
-    });
-    it('test with null return', function (done) {
-        Retry_1.default(function (next) { return next(); })(done);
-    });
-    it('Function.length should be at least 1', function () {
-        if (Retry_1.default().length < 1) {
-            throw new Error();
-        }
-        if (Retry_1.default(function (next) { return true; }).length < 1) {
-            throw new Error();
-        }
-    });
-    it('test with null callback', function (done) {
-        Retry_1.default(function (next) { return next(); })();
-        setTimeout(done, 16);
-    });
-    it('catches errors', function (done) {
-        Retry_1.default(function (next) { throw new Error('error'); })(function (err, res) { return done(err != null ? null : err); });
-    });
-    it('returns 1', function (done) {
-        Retry_1.default(function (next) { return next(null, 1); })(function (err, res) { return done(((err != null) && (res === 1)) ? null : err); });
-    });
-});
+//
+// import Assert from './Assert';
+// import CatchError from './CatchError';
+// import Callbackify from './Callbackify';
+// import InSeries from './InSeries';
+// import Promisify from './Promisify';
+// import Logging from './Logging';
+// import Delay from './Delay';
+// import If from './If';
+// import InOrder from './InOrder';
+// import InParallel from './InParallel';
+// import PassThrough from './PassThrough';
+// import ParallelMap from './ParallelMap';
+// import Retry from './Retry';
+//
+// describe('Retry', () => {
+// 	it('test with 0 handlers', (done) => {
+// 		Retry()(done);
+// 	});
+//
+// 	it('test with null return', (done) => {
+// 		Retry(
+// 			(next) => next()
+// 		)(done);
+// 	});
+//
+// 	it('Function.length should be at least 1', () => {
+// 		if (Retry().length < 1) { throw new Error(); }
+// 		if (Retry((next) => true).length < 1) { throw new Error(); }
+// 	});
+//
+// 	it('test with null callback', (done) => {
+// 		Retry(
+// 			(next) => next()
+// 		)();
+// 		setTimeout(done, 16);
+// 	});
+//
+// 	it('catches errors', (done) => {
+// 		Retry(
+// 			(next) => { throw new Error('error'); }
+// 		)((err, res) => done(err != null ? null : err));
+// 	});
+//
+// 	it('returns 1', (done) => {
+// 		Retry(
+// 			(next) => next(null, 1)
+// 		)((err, res) => done(
+// 			((err != null) && (res === 1)) ? null : err)
+// 		);
+// 	});
+// });

@@ -7,6 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Callbackify_1 = __importDefault(require("./Callbackify"));
 var Promisify_1 = __importDefault(require("./Promisify"));
 var Timer_1 = __importDefault(require("./Timer"));
+var t1 = Timer_1.default(function () { return 1; });
 describe('Timer', function () {
     it('test with 0 handlers', function (done) {
         Callbackify_1.default(Timer_1.default())(done);

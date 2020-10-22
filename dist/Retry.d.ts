@@ -1,5 +1,7 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task } from './types';
+declare type _UWP<T> = T extends Promise<infer U> ? U : T;
+declare type _RET<T> = T extends (...args: any) => any ? ReturnType<T> : any;
+declare type _ACC<T> = T extends (...args: any) => any ? Parameters<T> : any;
 /**
 * Wraps a task and attempts to retry if it throws an error, with an exponential backoff.
 * @param {taskFunction} task - the task to wrap.
@@ -9,5 +11,5 @@ import SyncTask from './types/SyncTask';
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-declare function Retry(task?: AsyncTask | SyncTask, options?: any): AsyncTask;
+declare function Retry<T extends Task>(task?: T, options?: any): (...args: _ACC<T>) => Promise<_UWP<_RET<T>>>;
 export = Retry;

@@ -1,13 +1,19 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
-import CallbackTask from './types/CallbackTask';
+import { Task } from './types';
 
 import _Promisify from './Promisify';
 import _Callbackify from './Callbackify';
 import PassThrough from './PassThrough';
 
 import _TimeIn from 'callback-patterns/TimeIn';
+
+
+type _UWP<T> = T extends Promise<infer U> ? U : T;
+
+// type _Returns<T> = T extends (...args : any) => any ? ReturnType<T> : never;
+type _RET<T> = T extends (...args : any) => any ? ReturnType<T> : any;
+type _ACC<T> = T extends (...args : any) => any ? Parameters<T> : any;
+
 
 /**
 *
@@ -31,13 +37,13 @@ import _TimeIn from 'callback-patterns/TimeIn';
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-function TimeIn(_1 ?: AsyncTask | SyncTask, _2 ?: number) : AsyncTask {
+function TimeIn<T extends Task>(_1 ?: T, _2 ?: number) : (...args : _ACC<T>) => Promise<_UWP<_RET<T>>> {
 	var task = _Callbackify(_1 || PassThrough);
 	var ms = _2 || 1000;
 
 	return _Promisify(
 		_TimeIn(task, ms)
-	);
+	) as any;
 }
 
 export = TimeIn;

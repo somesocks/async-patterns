@@ -15,6 +15,8 @@ import ParallelMap from './ParallelMap';
 import Retry from './Retry';
 import Timer from './Timer';
 
+let t1 = Timer(() => 1);
+
 describe('Timer', () => {
 	it('test with 0 handlers', (done) => {
 		Callbackify(

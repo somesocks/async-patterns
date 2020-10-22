@@ -16,7 +16,6 @@ var EMPTY_TASK = Promisify_1.default(function (next) { next(); });
 * @memberof async-patterns
 */
 function Retry(task, options) {
-    task = Callbackify_1.default(task || EMPTY_TASK);
-    return Promisify_1.default(Retry_1.default(task, options));
+    return Promisify_1.default(Retry_1.default(Callbackify_1.default(task || EMPTY_TASK), options));
 }
 module.exports = Retry;

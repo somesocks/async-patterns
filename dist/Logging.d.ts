@@ -1,4 +1,4 @@
-import AsyncTask from './types/AsyncTask';
+import { LoggingTask } from './Logging.types';
 /**
 * A logging utility.
 * It passes the arguments received into all the statements, collects the results, and joins them together with newlines to build the final log statement
@@ -6,5 +6,5 @@ import AsyncTask from './types/AsyncTask';
 * @returns {taskFunction} a logging task
 * @memberof async-patterns
 */
-declare function Logging(this: any, ...args: any[]): AsyncTask;
+declare function Logging(this: any, ...args: any[]): LoggingTask;
 export = Logging;

@@ -1,6 +1,5 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { DelayTask } from './Delay.types';
 
 import Promisify from './Promisify';
 import Callbackify from './Callbackify';
@@ -26,8 +25,8 @@ const DEFAULT_DELAY = 1000;
 * @returns {taskFunction} a delay task
 * @memberof async-patterns
 */
-function Delay(_1 ?: number) : AsyncTask {
-	return Promisify(_Delay(_1 || DEFAULT_DELAY));
+function Delay(_1 ?: number) : DelayTask {
+	return Promisify(_Delay(_1 || DEFAULT_DELAY)) as any;
 }
 
 export = Delay;

@@ -7,6 +7,8 @@ var Assert_1 = __importDefault(require("./Assert"));
 var CatchError_1 = __importDefault(require("./CatchError"));
 var Callbackify_1 = __importDefault(require("./Callbackify"));
 var InSeries_1 = __importDefault(require("./InSeries"));
+var task = CatchError_1.default(function (a) { return a; });
+var task2 = InSeries_1.default(function (a) { return a + 1; }, function (a) { return a + '1'; }, task);
 describe('CatchError', function () {
     it('CatchError 1', function (done) {
         var task = Callbackify_1.default(InSeries_1.default(CatchError_1.default(function () { return 1; }), Assert_1.default(function (_a) {

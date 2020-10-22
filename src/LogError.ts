@@ -1,8 +1,14 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task } from './types';
 
 import PassThrough from './PassThrough';
+
+type _UWP<T> = T extends Promise<infer U> ? U : T;
+
+// type _Returns<T> = T extends (...args : any) => any ? ReturnType<T> : never;
+type _RET<T> = T extends (...args : any) => any ? ReturnType<T> : any;
+type _ACC<T> = T extends (...args : any) => any ? Parameters<T> : any;
+
 
 /**
 * ```javascript
@@ -17,7 +23,7 @@ import PassThrough from './PassThrough';
 * @returns {function} an async wrapper function around the task
 * @memberof async-patterns
 */
-const LogError = function LogError(task ?: AsyncTask | SyncTask) : AsyncTask {
+const LogError = function LogError<T extends Task>(task ?: T) : (...args : _ACC<T>) => Promise<_UWP<_RET<T>>> {
 	const task2 = task || PassThrough;
 
 	return async function (request) {

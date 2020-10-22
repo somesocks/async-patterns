@@ -1,5 +1,5 @@
 
-import AsyncTask from './types/AsyncTask';
+import { AssertTask } from './Assert.types';
 
 const nop = () => false;
 
@@ -36,7 +36,7 @@ const errorWrapper = (log) => {
 * @returns {taskFunction} an assertion task
 * @memberof async-patterns
 */
-function Assert(validator, message ?: any) : AsyncTask {
+function Assert(validator, message ?: any) : AssertTask {
 	validator = validator || nop;
 	message = message || 'async-patterns/Assert failed';
 	message = errorWrapper(message);
@@ -48,7 +48,7 @@ function Assert(validator, message ?: any) : AsyncTask {
 			throw err;
 		}
 		return request;
-	};
+	} as any;
 }
 
 

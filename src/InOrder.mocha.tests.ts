@@ -9,13 +9,18 @@ import If from './If';
 import InOrder from './InOrder';
 import PassThrough from './PassThrough';
 
+// let a = InOrder(
+//   (a : number) => a + 1,
+//   (b : number) => b + '1',
+//   (c : number) => Boolean(c),
+// );
+
 describe('InOrder', () => {
 	it('Long Chain Performance', (done) => {
-		const chain = Callbackify(
-			InOrder(
-				...Array(100000).fill(PassThrough)
-			)
+    const task = InOrder(
+			...Array(100000).fill(PassThrough)
 		);
+		const chain = Callbackify(task);
 
 		chain(done, [ 1, 2, 3 ]);
 	});
@@ -25,12 +30,14 @@ describe('InOrder', () => {
 	});
 
 	it('test with null return', (done) => {
-		Callbackify(
-			InOrder(
-				() => {},
-				() => {}
-			)
-		)(done);
+    const task = InOrder(
+      () => {},
+      () => {}
+		);
+
+		const chain = Callbackify(task);
+
+		chain(done);
 	});
 
 	it('catches errors', (done) => {

@@ -1,5 +1,7 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task } from './types';
+declare type _UWP<T> = T extends Promise<infer U> ? U : T;
+declare type _RET<T> = T extends (...args: any) => any ? ReturnType<T> : any;
+declare type _ACC<T> = T extends (...args: any) => any ? Parameters<T> : any;
 /**
 *
 * ```javascript
@@ -24,5 +26,5 @@ import SyncTask from './types/SyncTask';
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-declare function TimeOut(_1?: AsyncTask | SyncTask, _2?: number): AsyncTask;
+declare function TimeOut<T extends Task>(_1?: Task, _2?: number): (...args: _ACC<T>) => Promise<_UWP<_RET<T>>>;
 export = TimeOut;

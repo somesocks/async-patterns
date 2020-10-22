@@ -1,12 +1,23 @@
 
 import AsyncTask from './types/AsyncTask';
 import SyncTask from './types/SyncTask';
-import CallbackTask from './types/CallbackTask';
+import { Task } from './types';
 
 
 import _Promisify from './Promisify';
 import _Callbackify from './Callbackify';
 import _Retry from 'callback-patterns/Retry';
+
+
+
+type _UWP<T> = T extends Promise<infer U> ? U : T;
+
+// type _Returns<T> = T extends (...args : any) => any ? ReturnType<T> : never;
+type _RET<T> = T extends (...args : any) => any ? ReturnType<T> : any;
+type _ACC<T> = T extends (...args : any) => any ? Parameters<T> : any;
+
+
+
 
 var EMPTY_TASK = _Promisify(
 	function (next) { next(); }
@@ -21,11 +32,9 @@ var EMPTY_TASK = _Promisify(
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-function Retry(task ?: AsyncTask | SyncTask, options ?: any) : AsyncTask {
-	task = _Callbackify(task || EMPTY_TASK);
-
+function Retry<T extends Task>(task ?: T, options ?: any) : (...args : _ACC<T>) => Promise<_UWP<_RET<T>>>  {
 	return _Promisify(
-		_Retry(task, options)
+		_Retry(_Callbackify(task || EMPTY_TASK), options)
 	);
 }
 

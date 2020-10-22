@@ -1,6 +1,5 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task } from './types';
 import CallbackTask from './types/CallbackTask';
 
 import _Promisify from './Promisify';
@@ -10,6 +9,14 @@ import PassThrough from './PassThrough';
 import _Memoize from 'callback-patterns/Memoize';
 
 type KeyFunction = (...args : any[]) => string;
+
+
+type _UWP<T> = T extends Promise<infer U> ? U : T;
+
+// type _Returns<T> = T extends (...args : any) => any ? ReturnType<T> : never;
+type _RET<T> = T extends (...args : any) => any ? ReturnType<T> : any;
+type _ACC<T> = T extends (...args : any) => any ? Parameters<T> : any;
+
 
 const DEFAULT_KEY_FUNCTION : KeyFunction = function () {
 	var args = Array.prototype.slice.call(arguments);
@@ -33,7 +40,7 @@ const DEFAULT_KEY_FUNCTION : KeyFunction = function () {
 * @returns {AsyncTask}
 * @memberof async-patterns
 */
-function Memoize(_1 ?: AsyncTask | SyncTask, _2 ?: KeyFunction) : AsyncTask {
+function Memoize<T extends Task>(_1 ?: T, _2 ?: KeyFunction) : (...args : _ACC<T>) => Promise<_UWP<_RET<T>>> {
 	return _Promisify(
 		_Memoize(
 			_Callbackify(_1),

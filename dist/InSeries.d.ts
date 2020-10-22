@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { SeriesChain, SeriesArgs, SeriesResult } from './InSeries.types';
 /**
 * ```javascript
 *
@@ -20,5 +19,5 @@ import SyncTask from './types/SyncTask';
 * @returns {function} an async wrapper function that runs all of the tasks in series, calling each one with the results of the previous one
 * @memberof async-patterns
 */
-declare const InSeries: (...tasks: (AsyncTask | SyncTask)[]) => AsyncTask;
+declare const InSeries: <T extends import("./types").Task[]>(...tasks: SeriesChain<T>) => (...args: import("./InSeries.types")._ACC<import("./InSeries.types")._FIRST<T>>) => Promise<import("./InSeries.types")._UWP<import("./InSeries.types")._RET<import("./InSeries.types")._LAST<T>>>>;
 export = InSeries;

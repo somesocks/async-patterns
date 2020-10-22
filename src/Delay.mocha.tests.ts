@@ -7,6 +7,15 @@ import InSeries from './InSeries';
 import Promisify from './Promisify';
 import Delay from './Delay';
 
+const t1 = InSeries(
+	() => [ 1, 2, 3 ],
+	Delay(100),
+	Assert(
+		([ a, b, c ]) => (a === 1 && b === 2 && c === 3)
+	)
+);
+
+
 describe('Delay', () => {
 
 	it('Delay 1',

@@ -1,5 +1,7 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task } from './types';
+declare type _UWP<T> = T extends Promise<infer U> ? U : T;
+declare type _RET<T> = T extends (...args: any) => any ? ReturnType<T> : any;
+declare type _ACC<T> = T extends (...args: any) => any ? Parameters<T> : any;
 /**
 * ```javascript
 *   let task = LogError(task);
@@ -13,5 +15,5 @@ import SyncTask from './types/SyncTask';
 * @returns {function} an async wrapper function around the task
 * @memberof async-patterns
 */
-declare const LogError: (task?: AsyncTask | SyncTask | undefined) => AsyncTask;
+declare const LogError: <T extends Task>(task?: T | undefined) => (...args: _ACC<T>) => Promise<_UWP<_RET<T>>>;
 export = LogError;

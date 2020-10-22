@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -37,23 +38,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var Assert_1 = __importDefault(require("./Assert"));
 var Callbackify_1 = __importDefault(require("./Callbackify"));
 var InSeries_1 = __importDefault(require("./InSeries"));
 var InOrder_1 = __importDefault(require("./InOrder"));
 var PassThrough_1 = __importDefault(require("./PassThrough"));
+// let a = InOrder(
+//   (a : number) => a + 1,
+//   (b : number) => b + '1',
+//   (c : number) => Boolean(c),
+// );
 describe('InOrder', function () {
     it('Long Chain Performance', function (done) {
-        var chain = Callbackify_1.default(InOrder_1.default.apply(void 0, Array(100000).fill(PassThrough_1.default)));
+        var task = InOrder_1.default.apply(void 0, Array(100000).fill(PassThrough_1.default));
+        var chain = Callbackify_1.default(task);
         chain(done, [1, 2, 3]);
     });
     it('test with 0 handlers', function (done) {
         Callbackify_1.default(InOrder_1.default())(done);
     });
     it('test with null return', function (done) {
-        Callbackify_1.default(InOrder_1.default(function () { }, function () { }))(done);
+        var task = InOrder_1.default(function () { }, function () { });
+        var chain = Callbackify_1.default(task);
+        chain(done);
     });
     it('catches errors', function (done) {
         var task = Callbackify_1.default(InOrder_1.default(function () { }, function () { throw new Error('error'); }));
@@ -63,10 +71,10 @@ describe('InOrder', function () {
         var task = Callbackify_1.default(InOrder_1.default(function () { }, function () { return Promise.reject('error'); }));
         task(function (err, res) { return done(err != null ? null : err); });
     });
-    it('works 1', Callbackify_1.default(InSeries_1.default(function () { return 1; }, InOrder_1.default(function (val) { return val + 1; }, function (val) { return val + 1; }, function (val) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+    it('works 1', Callbackify_1.default(InSeries_1.default(function () { return 1; }, InOrder_1.default(function (val) { return val + 1; }, function (val) { return val + 1; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
         return [2 /*return*/, val + 1];
     }); }); }), Assert_1.default(function (val) { return val === 1; }))));
-    it('works 2', Callbackify_1.default(InSeries_1.default(function () { return ({ a: 1 }); }, InOrder_1.default(function (val) { val.a++; }, function (val) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+    it('works 2', Callbackify_1.default(InSeries_1.default(function () { return ({ a: 1 }); }, InOrder_1.default(function (val) { val.a++; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
         val.a++;
         return [2 /*return*/];
     }); }); }, function (val) { val.a++; }), Assert_1.default(function (val) { return val && val.a === 4; }))));

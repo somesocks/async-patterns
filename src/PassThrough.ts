@@ -1,4 +1,6 @@
 
+import { PassThroughTask } from './PassThrough.types';
+
 /**
 * ```javascript
 	const task = PassThrough;
@@ -10,8 +12,8 @@
 * @name PassThrough
 * @memberof async-patterns
 */
-const PassThrough = async function (request) {
+const PassThrough : PassThroughTask = async function<T extends any>(request : T) : Promise<T> {
 	return request;
-};
+} as PassThroughTask;
 
 export = PassThrough;

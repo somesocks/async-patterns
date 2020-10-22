@@ -5,6 +5,19 @@ import Callbackify from './Callbackify';
 import InSeries from './InSeries';
 import Promisify from './Promisify';
 
+const task =
+CatchError(
+  (a : string) => a
+);
+
+const task2 = InSeries(
+  (a : number ) => a + 1,
+  (a) => a + '1',
+  task
+);
+
+
+
 describe('CatchError', () => {
 	it('CatchError 1', (done) => {
 		const task = Callbackify(

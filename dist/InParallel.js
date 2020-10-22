@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -59,12 +60,12 @@ var PassThrough_1 = __importDefault(require("./PassThrough"));
 * @memberof async-patterns
 */
 var InParallel = function () {
-    var tasks = [];
+    var args = [];
     for (var _i = 0; _i < arguments.length; _i++) {
-        tasks[_i] = arguments[_i];
+        args[_i] = arguments[_i];
     }
-    tasks = tasks || [];
-    if (tasks.length === 0) {
+    args = args || [];
+    if (args.length === 0) {
         return PassThrough_1.default;
     }
     return function (request) {
@@ -72,7 +73,7 @@ var InParallel = function () {
             var results;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, Promise.all(tasks.map(function (task) { return task(request); }))];
+                    case 0: return [4 /*yield*/, Promise.all(args.map(function (task) { return task(request); }))];
                     case 1:
                         results = _a.sent();
                         return [2 /*return*/, results];

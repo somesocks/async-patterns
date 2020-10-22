@@ -1,5 +1,7 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task } from './types';
+declare type _UWP<T> = T extends Promise<infer U> ? U : T;
+declare type _RET<T> = T extends (...args: any) => any ? ReturnType<T> : any;
+declare type _ACC<T> = T extends (...args: any) => any ? Parameters<T> : any;
 /**
 * Wraps a task and ensures that only X number of instances of the task can be run in parallel.
 * Requests are queued up in an unbounded FIFO queue until they can be run.
@@ -8,5 +10,5 @@ import SyncTask from './types/SyncTask';
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-declare function Throttle(_1?: AsyncTask | SyncTask, _2?: number): AsyncTask;
+declare function Throttle<T extends Task>(_1?: T, _2?: number): (...args: _ACC<T>) => Promise<_UWP<_RET<T>>>;
 export = Throttle;

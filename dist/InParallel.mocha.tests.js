@@ -22,22 +22,26 @@ describe('InParallel', function () {
     it('test with 0 handlers', function (done) {
         Callbackify_1.default(InParallel_1.default())(done);
     });
-    it('works', Callbackify_1.default(InSeries_1.default(InParallel_1.default(function () { }, function () { return null; }, function () { return 1; }), Assert_1.default(function (_a) {
-        var r0 = _a[0], r1 = _a[1], r2 = _a[2];
-        return r0 === undefined;
-    }, 'empty results failed'), Assert_1.default(function (_a) {
-        var r0 = _a[0], r1 = _a[1], r2 = _a[2];
-        return r1 === null;
-    }, function (_a) {
-        var r0 = _a[0], r1 = _a[1], r2 = _a[2];
-        return "null check failed " + r1;
-    }), Assert_1.default(function (_a) {
-        var r0 = _a[0], r1 = _a[1], r2 = _a[2];
-        return r2 === 1;
-    }, function (_a) {
-        var r0 = _a[0], r1 = _a[1], r2 = _a[2];
-        return "results failed " + r2;
-    }))));
+    it('works', function (done) {
+        var task = InParallel_1.default(function (a) { }, function (a) { return null; }, function () { return 1; });
+        var task2 = Callbackify_1.default(InSeries_1.default(task, Assert_1.default(function (_a) {
+            var r0 = _a[0], r1 = _a[1], r2 = _a[2];
+            return r0 === undefined;
+        }, 'empty results failed'), Assert_1.default(function (_a) {
+            var r0 = _a[0], r1 = _a[1], r2 = _a[2];
+            return r1 === null;
+        }, function (_a) {
+            var r0 = _a[0], r1 = _a[1], r2 = _a[2];
+            return "null check failed " + r1;
+        }), Assert_1.default(function (_a) {
+            var r0 = _a[0], r1 = _a[1], r2 = _a[2];
+            return r2 === 1;
+        }, function (_a) {
+            var r0 = _a[0], r1 = _a[1], r2 = _a[2];
+            return "results failed " + r2;
+        })));
+        task2(done);
+    });
     it('catches errors', function (done) {
         var task = Callbackify_1.default(InParallel_1.default(function () { }, function () { throw new Error('error'); }));
         task(function (err, res) { return done(err != null ? null : err); });

@@ -31,14 +31,16 @@ describe('InParallel', () => {
 		Callbackify(InParallel())(done);
 	});
 
-	it('works',
-		Callbackify(
+	it('works', (done) => {
+    const task = InParallel(
+			(a: number) => {},
+			(a: number) => null,
+			() => 1
+		);
+
+    const task2 = Callbackify(
 			InSeries(
-				InParallel(
-					() => {},
-					() => null,
-					() => 1
-				),
+        task,
 				Assert(
 					([ r0, r1, r2 ]) => r0 === undefined,
 					'empty results failed'
@@ -52,8 +54,10 @@ describe('InParallel', () => {
 					([ r0, r1, r2 ]) => `results failed ${r2}`
 				)
 			)
+		);
 
-		)
+    task2(done);
+  }
 	);
 
 	it('catches errors', (done) => {

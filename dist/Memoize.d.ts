@@ -1,6 +1,8 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task } from './types';
 declare type KeyFunction = (...args: any[]) => string;
+declare type _UWP<T> = T extends Promise<infer U> ? U : T;
+declare type _RET<T> = T extends (...args: any) => any ? ReturnType<T> : any;
+declare type _ACC<T> = T extends (...args: any) => any ? Parameters<T> : any;
 /**
 * Memoize builds a wrapper function that caches results of previous executions.
 * As a result, repeated calls to Memoize may be much faster, if the request hits the cache.
@@ -18,5 +20,5 @@ declare type KeyFunction = (...args: any[]) => string;
 * @returns {AsyncTask}
 * @memberof async-patterns
 */
-declare function Memoize(_1?: AsyncTask | SyncTask, _2?: KeyFunction): AsyncTask;
+declare function Memoize<T extends Task>(_1?: T, _2?: KeyFunction): (...args: _ACC<T>) => Promise<_UWP<_RET<T>>>;
 export = Memoize;

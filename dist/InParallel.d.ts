@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { ParallelArgs, ParallelResult, ParallelChain } from './InParallel.types';
 /**
 * ```javascript
 *
@@ -20,5 +19,5 @@ import SyncTask from './types/SyncTask';
 * @returns {function} an async wrapper function that runs all the tasks in parallel, and returns an array of results
 * @memberof async-patterns
 */
-declare const InParallel: (...tasks: (AsyncTask | SyncTask)[]) => AsyncTask;
+declare const InParallel: <T extends import("./types").Task[]>(...args: ParallelChain<T>) => (...args: Parameters<import("./types").First<T>>) => Promise<ParallelResult<T>>;
 export = InParallel;

@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { OrderArgs, OrderResult, OrderChain } from './InOrder.types';
 /**
 * ```javascript
 *
@@ -20,5 +19,5 @@ import SyncTask from './types/SyncTask';
 * @returns {function} an async wrapper function that runs all of the tasks in order, calling each one with original request
 * @memberof async-patterns
 */
-declare const InOrder: (...tasks: (AsyncTask | SyncTask)[]) => AsyncTask;
+declare const InOrder: <T extends import("./types").Task[]>(...tasks: OrderChain<T>) => (...args: Parameters<import("./types").First<T>>) => Promise<import("./InOrder.types")._UWP<Parameters<import("./types").First<T>>[0]>>;
 export = InOrder;

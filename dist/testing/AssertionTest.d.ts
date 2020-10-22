@@ -162,7 +162,7 @@ interface IAssertionTest {
 */
 declare function AssertionTest(this: IAssertionTest | null | undefined | void): IAssertionTest;
 declare namespace AssertionTest {
-    var VerifyErrorWasNotThrown: import("../types/AsyncTask").default;
-    var VerifyErrorWasThrown: import("../types/AsyncTask").default;
+    var VerifyErrorWasNotThrown: import("../PassThrough.types").PassThroughTask;
+    var VerifyErrorWasThrown: import("../PassThrough.types").PassThroughTask;
 }
 export = AssertionTest;

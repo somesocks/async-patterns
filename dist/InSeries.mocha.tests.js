@@ -1,9 +1,10 @@
 "use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
         function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
@@ -37,18 +38,30 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var Assert_1 = __importDefault(require("./Assert"));
 var Callbackify_1 = __importDefault(require("./Callbackify"));
 var InSeries_1 = __importDefault(require("./InSeries"));
 var PassThrough_1 = __importDefault(require("./PassThrough"));
+var Logging_1 = __importDefault(require("./Logging"));
+var t1 = InSeries_1.default(PassThrough_1.default, Logging_1.default('foo'), function (a) { return a + 1; }, PassThrough_1.default, function (b) { return b + '1'; }, PassThrough_1.default, function (c) { return Boolean(c); }, Logging_1.default('foo'), PassThrough_1.default);
+var t2 = InSeries_1.default(function (a) { return a + 1; }, function (b) { return b + '1'; }, function (c) { return Boolean(c); });
+var t3 = InSeries_1.default();
+var t4 = InSeries_1.default(function (a) { return a + 1; }, function (b) { return b + '1'; }, function (c) { return Promise.resolve(Boolean(c)); });
+var t5 = InSeries_1.default(function (val) { return val + 1; }, function (val) { return val + 1; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    return [2 /*return*/, val + 1];
+}); }); });
+var t6 = InSeries_1.default(InSeries_1.default(function (val) { return val + 1; }));
+var t7 = InSeries_1.default(function (a) { return a + 1; }, function () { return 1; }, function () { return 1; }, function () { return 1; });
 describe('InSeries tests', function () {
     it('test with 0 handlers', function (done) {
         Callbackify_1.default(InSeries_1.default())(done);
     });
     it('test with null return', function (done) {
-        Callbackify_1.default(InSeries_1.default(function () { }, function () { }))(done);
+        var task = InSeries_1.default(function (a) { return a; }, function (a) { return a + 1; });
+        var task2 = InSeries_1.default(function () { return 1; }, task, function (a) { return a; });
+        var p = task(1);
+        Callbackify_1.default(task)(done);
     });
     it('catches errors', function (done) {
         var task = Callbackify_1.default(InSeries_1.default(function () { }, function () { throw new Error('error'); }));
@@ -58,7 +71,7 @@ describe('InSeries tests', function () {
         var task = Callbackify_1.default(InSeries_1.default(function () { }, function () { return Promise.reject('error'); }));
         task(function (err, res) { return done(err != null ? null : err); });
     });
-    it('works', Callbackify_1.default(InSeries_1.default(function () { return 1; }, InSeries_1.default(function (val) { return val + 1; }, function (val) { return val + 1; }, function (val) { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
+    it('works', Callbackify_1.default(InSeries_1.default(function () { return 1; }, InSeries_1.default(function (val) { return val + 1; }, function (val) { return val + 1; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
         return [2 /*return*/, val + 1];
     }); }); }), Assert_1.default(function (val) { return val === 4; }))));
     var SHORT_CHAIN = InSeries_1.default.apply(void 0, Array(1000).fill(PassThrough_1.default));
