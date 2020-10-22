@@ -19,5 +19,5 @@ import { OrderArgs, OrderResult, OrderChain } from './InOrder.types';
 * @returns {function} an async wrapper function that runs all of the tasks in order, calling each one with original request
 * @memberof async-patterns
 */
-declare const InOrder: <T extends import("./types").Task[]>(...tasks: OrderChain<T>) => (...args: Parameters<import("./types").First<T>>) => Promise<import("./InOrder.types")._UWP<Parameters<import("./types").First<T>>[0]>>;
+declare const InOrder: <T extends import("./types").Task[]>(...tasks: OrderChain<T>) => (...args: Parameters<import("./types").First<T>>) => Promise<Parameters<import("./types").First<T>>[0] extends Promise<infer U> ? U : Parameters<import("./types").First<T>>[0]>;
 export = InOrder;
