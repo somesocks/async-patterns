@@ -1,6 +1,6 @@
 {
   "name": "async-patterns",
-  "version": "1.3.0-beta.1",
+  "version": "1.3.0-beta.2",
   "description": "A a collection of design patterns for async/await or promise-driven async code",
   "main": "./index.js",
   "scripts": {},
