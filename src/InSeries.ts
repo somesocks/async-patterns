@@ -1,10 +1,7 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { SeriesTask, SeriesChain, SeriesArgs, SeriesResult } from './InSeries.types';
 
 import PassThrough from './PassThrough';
-
-type Task = AsyncTask | SyncTask;
 
 /**
 * ```javascript
@@ -26,10 +23,10 @@ type Task = AsyncTask | SyncTask;
 * @returns {function} an async wrapper function that runs all of the tasks in series, calling each one with the results of the previous one
 * @memberof async-patterns
 */
-const InSeries = function (...tasks : Task[]) : AsyncTask {
+const InSeries = function <T extends SeriesTask[]>(...tasks : SeriesChain<T>) : (...args : SeriesArgs<T>) => Promise<SeriesResult<T>> {
 	tasks = tasks || [];
 
-	if (tasks.length === 0) { return PassThrough; }
+	if (tasks.length === 0) { return PassThrough as any; }
 
 	return async function (request) {
 		let index = 0;
@@ -40,7 +37,7 @@ const InSeries = function (...tasks : Task[]) : AsyncTask {
 		}
 
 		return request;
-	};
+	} as any;
 
 };
 
