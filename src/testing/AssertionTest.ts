@@ -305,7 +305,7 @@ AssertionTest.prototype.teardown = function teardown(_teardown) {
 * @returns {function} callback-expecting test function
 * @memberof async-patterns.testing.AssertionTest#
 */
-AssertionTest.prototype.build = function build(this : AssertionTest) {
+AssertionTest.prototype.build = function build(this : any) {
 	let {
 		_setup,
 		_prepare,

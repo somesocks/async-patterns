@@ -1,5 +1,6 @@
 import AsyncTask from './types/AsyncTask';
 import SyncTask from './types/SyncTask';
+declare type Task = AsyncTask | SyncTask;
 /**
 * ```javascript
 *
@@ -20,5 +21,5 @@ import SyncTask from './types/SyncTask';
 * @returns {function} an async wrapper function that runs all of the tasks in series, calling each one with the results of the previous one
 * @memberof async-patterns
 */
-declare const InSeries: (...tasks: (AsyncTask | SyncTask)[]) => AsyncTask;
+declare const InSeries: (...tasks: Task[]) => AsyncTask;
 export = InSeries;

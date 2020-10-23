@@ -1,3 +1,4 @@
 
 # test cases
 *.mocha.tests.js
+*.mocha.tests.d.ts
