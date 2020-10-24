@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { OrderArgs, OrderResult } from './InOrder.types';
 /**
 * ```javascript
 *
@@ -20,5 +19,17 @@ import SyncTask from './types/SyncTask';
 * @returns {function} an async wrapper function that runs all of the tasks in order, calling each one with original request
 * @memberof async-patterns
 */
-declare const InOrder: (...tasks: (AsyncTask | SyncTask)[]) => AsyncTask;
+declare const InOrder: <T extends import("./types").Task[]>(...tasks: T) => (arg: (({ [P in keyof T]: {
+    _box: T[P] extends import("./types").Task ? <G>() => G extends import("./types").Accepts<T[P], any[]>[0] ? 1 : 2 extends <G_1>() => G_1 extends any ? 1 : 2 ? unknown : import("./types").Accepts<T[P], any[]>[0] : unknown;
+}; }[Exclude<keyof T, number | "toString" | "toLocaleString" | "concat" | "indexOf" | "lastIndexOf" | "slice" | "length" | "push" | "reverse" | "map" | "filter" | "pop" | "join" | "shift" | "sort" | "splice" | "unshift" | "every" | "some" | "forEach" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values">] extends any ? (k: { [P in keyof T]: {
+    _box: T[P] extends import("./types").Task ? <G>() => G extends import("./types").Accepts<T[P], any[]>[0] ? 1 : 2 extends <G_1>() => G_1 extends any ? 1 : 2 ? unknown : import("./types").Accepts<T[P], any[]>[0] : unknown;
+}; }[Exclude<keyof T, number | "toString" | "toLocaleString" | "concat" | "indexOf" | "lastIndexOf" | "slice" | "length" | "push" | "reverse" | "map" | "filter" | "pop" | "join" | "shift" | "sort" | "splice" | "unshift" | "every" | "some" | "forEach" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values">]) => void : never) extends (k: infer I) => void ? I : never) extends {
+    _box: infer U;
+} ? U : never) => Promise<import("./types").PromiseResult<(({ [P in keyof T]: {
+    _box: T[P] extends import("./types").Task ? <G>() => G extends import("./types").Accepts<T[P], any[]>[0] ? 1 : 2 extends <G_1>() => G_1 extends any ? 1 : 2 ? unknown : import("./types").Accepts<T[P], any[]>[0] : unknown;
+}; }[Exclude<keyof T, number | "toString" | "toLocaleString" | "concat" | "indexOf" | "lastIndexOf" | "slice" | "length" | "push" | "reverse" | "map" | "filter" | "pop" | "join" | "shift" | "sort" | "splice" | "unshift" | "every" | "some" | "forEach" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values">] extends any ? (k: { [P in keyof T]: {
+    _box: T[P] extends import("./types").Task ? <G>() => G extends import("./types").Accepts<T[P], any[]>[0] ? 1 : 2 extends <G_1>() => G_1 extends any ? 1 : 2 ? unknown : import("./types").Accepts<T[P], any[]>[0] : unknown;
+}; }[Exclude<keyof T, number | "toString" | "toLocaleString" | "concat" | "indexOf" | "lastIndexOf" | "slice" | "length" | "push" | "reverse" | "map" | "filter" | "pop" | "join" | "shift" | "sort" | "splice" | "unshift" | "every" | "some" | "forEach" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values">]) => void : never) extends (k: infer I) => void ? I : never) extends {
+    _box: infer U;
+} ? U : never>>;
 export = InOrder;

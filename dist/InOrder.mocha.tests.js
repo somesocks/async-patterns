@@ -44,6 +44,16 @@ var Callbackify_1 = __importDefault(require("./Callbackify"));
 var InSeries_1 = __importDefault(require("./InSeries"));
 var InOrder_1 = __importDefault(require("./InOrder"));
 var PassThrough_1 = __importDefault(require("./PassThrough"));
+var t1 = InOrder_1.default(function (val) { return val + 1; }, 
+// (val : string) => val + 1,
+function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    return [2 /*return*/, val + 1];
+}); }); });
+var t2 = InOrder_1.default(function (val) { return val.foo + 1; }, function (val) { return val.bar + 1; }, 
+// (val : string) => val + 1,
+function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    return [2 /*return*/, val + 1];
+}); }); });
 describe('InOrder', function () {
     it('Long Chain Performance', function (done) {
         var chain = Callbackify_1.default(InOrder_1.default.apply(void 0, Array(100000).fill(PassThrough_1.default)));
@@ -63,7 +73,7 @@ describe('InOrder', function () {
         var task = Callbackify_1.default(InOrder_1.default(function () { }, function () { return Promise.reject('error'); }));
         task(function (err, res) { return done(err != null ? null : err); });
     });
-    it('works 1', Callbackify_1.default(InSeries_1.default(function () { return 1; }, InOrder_1.default(function (val) { return val + 1; }, function (val) { return val + 1; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    it('works 1', Callbackify_1.default(InSeries_1.default(function () { return 1; }, t1, InOrder_1.default(function (val) { return val + 1; }, function (val) { return val + 1; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
         return [2 /*return*/, val + 1];
     }); }); }), Assert_1.default(function (val) { return val === 1; }))));
     it('works 2', Callbackify_1.default(InSeries_1.default(function () { return ({ a: 1 }); }, InOrder_1.default(function (val) { val.a++; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {

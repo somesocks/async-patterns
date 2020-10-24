@@ -1,8 +1,7 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
-
 import PassThrough from './PassThrough';
+
+import { OrderTask, OrderArgs, OrderResult } from './InOrder.types';
 
 /**
 * ```javascript
@@ -24,7 +23,7 @@ import PassThrough from './PassThrough';
 * @returns {function} an async wrapper function that runs all of the tasks in order, calling each one with original request
 * @memberof async-patterns
 */
-const InOrder = function (...tasks : (AsyncTask | SyncTask)[]) : AsyncTask {
+const InOrder = function<T extends OrderTask[]>(...tasks : T) : (arg : OrderArgs<T>) => Promise<OrderResult<T>> {
 	tasks = tasks || [];
 
 	if (tasks.length === 0) { return PassThrough; }
@@ -38,7 +37,7 @@ const InOrder = function (...tasks : (AsyncTask | SyncTask)[]) : AsyncTask {
 		}
 
 		return request;
-	};
+	} as any;
 
 };
 

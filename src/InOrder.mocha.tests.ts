@@ -9,6 +9,19 @@ import If from './If';
 import InOrder from './InOrder';
 import PassThrough from './PassThrough';
 
+let t1 = InOrder(
+  (val : number) => val + 1,
+  // (val : string) => val + 1,
+  async (val) => val + 1
+);
+
+let t2 = InOrder(
+  (val : { foo: number }) => val.foo + 1,
+  (val : { bar: number }) => val.bar + 1,
+  // (val : string) => val + 1,
+  async (val) => val + 1
+);
+
 describe('InOrder', () => {
 	it('Long Chain Performance', (done) => {
 		const chain = Callbackify(
@@ -59,6 +72,7 @@ describe('InOrder', () => {
 		Callbackify(
 			InSeries(
 				() => 1,
+        t1,
 				InOrder(
 					(val) => val + 1,
 					(val) => val + 1,
