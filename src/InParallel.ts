@@ -1,8 +1,7 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
-
 import PassThrough from './PassThrough';
+
+import { ParallelTask, ParallelArgs, ParallelResult } from './InParallel.types';
 
 /**
 * ```javascript
@@ -24,7 +23,7 @@ import PassThrough from './PassThrough';
 * @returns {function} an async wrapper function that runs all the tasks in parallel, and returns an array of results
 * @memberof async-patterns
 */
-const InParallel = function (...tasks : (AsyncTask | SyncTask)[]) : AsyncTask {
+const InParallel = function <T extends ParallelTask[]>(...tasks : T) : (args: ParallelArgs<T>) => Promise<ParallelResult<T>> {
 	tasks = tasks || [];
 
 	if (tasks.length === 0) { return PassThrough; }
@@ -34,8 +33,7 @@ const InParallel = function (...tasks : (AsyncTask | SyncTask)[]) : AsyncTask {
 		const results = await Promise.all(tasks.map(task => task(request)));
 
 		return results;
-	};
-
+	} as any;
 };
 
 export = InParallel;

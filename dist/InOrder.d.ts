@@ -25,11 +25,11 @@ declare const InOrder: <T extends import("./types").Task[]>(...tasks: T) => (arg
     _box: T[P] extends import("./types").Task ? <G>() => G extends import("./types").Accepts<T[P], any[]>[0] ? 1 : 2 extends <G_1>() => G_1 extends any ? 1 : 2 ? unknown : import("./types").Accepts<T[P], any[]>[0] : unknown;
 }; }[Exclude<keyof T, number | "toString" | "toLocaleString" | "concat" | "indexOf" | "lastIndexOf" | "slice" | "length" | "push" | "reverse" | "map" | "filter" | "pop" | "join" | "shift" | "sort" | "splice" | "unshift" | "every" | "some" | "forEach" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values">]) => void : never) extends (k: infer I) => void ? I : never) extends {
     _box: infer U;
-} ? U : never) => Promise<import("./types").PromiseResult<(({ [P in keyof T]: {
+} ? U : never) => Promise<(({ [P in keyof T]: {
     _box: T[P] extends import("./types").Task ? <G>() => G extends import("./types").Accepts<T[P], any[]>[0] ? 1 : 2 extends <G_1>() => G_1 extends any ? 1 : 2 ? unknown : import("./types").Accepts<T[P], any[]>[0] : unknown;
 }; }[Exclude<keyof T, number | "toString" | "toLocaleString" | "concat" | "indexOf" | "lastIndexOf" | "slice" | "length" | "push" | "reverse" | "map" | "filter" | "pop" | "join" | "shift" | "sort" | "splice" | "unshift" | "every" | "some" | "forEach" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values">] extends any ? (k: { [P in keyof T]: {
     _box: T[P] extends import("./types").Task ? <G>() => G extends import("./types").Accepts<T[P], any[]>[0] ? 1 : 2 extends <G_1>() => G_1 extends any ? 1 : 2 ? unknown : import("./types").Accepts<T[P], any[]>[0] : unknown;
 }; }[Exclude<keyof T, number | "toString" | "toLocaleString" | "concat" | "indexOf" | "lastIndexOf" | "slice" | "length" | "push" | "reverse" | "map" | "filter" | "pop" | "join" | "shift" | "sort" | "splice" | "unshift" | "every" | "some" | "forEach" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values">]) => void : never) extends (k: infer I) => void ? I : never) extends {
     _box: infer U;
-} ? U : never>>;
+} ? U : never>;
 export = InOrder;

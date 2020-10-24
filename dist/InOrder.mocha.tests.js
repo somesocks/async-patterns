@@ -54,6 +54,10 @@ var t2 = InOrder_1.default(function (val) { return val.foo + 1; }, function (val
 function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
     return [2 /*return*/, val + 1];
 }); }); });
+var t3 = InOrder_1.default(function (val) { return Promise.resolve(val); }, function (val) { return Promise.resolve(val); });
+var t4 = function (action) { return Promise.resolve(action); };
+var t5 = InOrder_1.default(t4, t4);
+var t6 = InOrder_1.default(t5, t5);
 describe('InOrder', function () {
     it('Long Chain Performance', function (done) {
         var chain = Callbackify_1.default(InOrder_1.default.apply(void 0, Array(100000).fill(PassThrough_1.default)));

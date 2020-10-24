@@ -4,6 +4,7 @@ import Assert from '../Assert';
 import Callbackify from '../Callbackify';
 import Promisify from '../Promisify';
 import Logging from '../Logging';
+import InOrder from '../InOrder';
 
 import ping from 'ping';
 
@@ -37,6 +38,39 @@ const SampleTest = AssertionTest()
 	)
 	.execute(
 		(request) => request + 1
+	)
+	.verify(
+		Assert(
+			(context) => context.setup.val === 1,
+			'bad setup'
+		),
+		Assert(
+			(context) => context.result === 2,
+			'bad result'
+		)
+	)
+	.teardown(
+		Assert(
+			(context) => context.setup.val === 1 && context.result === 2,
+			'bad teardown'
+		)
+	)
+	.build();
+
+
+const SampleTest2 = AssertionTest()
+	.describe('sample test 1')
+	.setup(
+		() => ({ val: 1 })
+	)
+	.prepare(
+		(setup) => setup.val
+	)
+	.execute(
+    InOrder(
+      (request) => request + 1,
+      (request) => request + 1,
+    )
 	)
 	.verify(
 		Assert(

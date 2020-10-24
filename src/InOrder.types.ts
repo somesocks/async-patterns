@@ -27,4 +27,4 @@ export type OrderTask = Task;
 
 export type OrderArgs<T extends OrderTask[]> = UnboxIntersection<UnionToIntersection<BoxedOrderArgs<T>>>;
 
-export type OrderResult<T extends OrderTask[]> = PR<OrderArgs<T>>;
+export type OrderResult<T extends OrderTask[]> = OrderArgs<T>;

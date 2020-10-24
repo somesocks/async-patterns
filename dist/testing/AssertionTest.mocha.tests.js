@@ -8,6 +8,7 @@ var Assert_1 = __importDefault(require("../Assert"));
 var Callbackify_1 = __importDefault(require("../Callbackify"));
 var Promisify_1 = __importDefault(require("../Promisify"));
 var Logging_1 = __importDefault(require("../Logging"));
+var InOrder_1 = __importDefault(require("../InOrder"));
 var ping_1 = __importDefault(require("ping"));
 var AssertionTest_1 = __importDefault(require("./AssertionTest"));
 var EmptyTest = AssertionTest_1.default()
@@ -23,6 +24,14 @@ var SampleTest = AssertionTest_1.default()
     .setup(function () { return ({ val: 1 }); })
     .prepare(function (setup) { return setup.val; })
     .execute(function (request) { return request + 1; })
+    .verify(Assert_1.default(function (context) { return context.setup.val === 1; }, 'bad setup'), Assert_1.default(function (context) { return context.result === 2; }, 'bad result'))
+    .teardown(Assert_1.default(function (context) { return context.setup.val === 1 && context.result === 2; }, 'bad teardown'))
+    .build();
+var SampleTest2 = AssertionTest_1.default()
+    .describe('sample test 1')
+    .setup(function () { return ({ val: 1 }); })
+    .prepare(function (setup) { return setup.val; })
+    .execute(InOrder_1.default(function (request) { return request + 1; }, function (request) { return request + 1; }))
     .verify(Assert_1.default(function (context) { return context.setup.val === 1; }, 'bad setup'), Assert_1.default(function (context) { return context.result === 2; }, 'bad result'))
     .teardown(Assert_1.default(function (context) { return context.setup.val === 1 && context.result === 2; }, 'bad teardown'))
     .build();

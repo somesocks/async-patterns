@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, PromiseResult, Accepts, Returns } from './types';
 /**
 * ```javascript
 *   let task = CatchError(task);
@@ -12,5 +11,8 @@ import SyncTask from './types/SyncTask';
 * @returns {function} an async wrapper function around the task
 * @memberof async-patterns
 */
-declare const CatchError: (task?: AsyncTask | SyncTask | undefined) => AsyncTask;
+declare const CatchError: <T extends Task>(task: T) => (...args: Accepts<T, any>) => Promise<{
+    result?: PromiseResult<Returns<T, any>> | undefined;
+    error?: any;
+}>;
 export = CatchError;

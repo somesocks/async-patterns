@@ -4,10 +4,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Assert_1 = __importDefault(require("./Assert"));
+var CatchError_1 = __importDefault(require("./CatchError"));
 var Callbackify_1 = __importDefault(require("./Callbackify"));
 var InSeries_1 = __importDefault(require("./InSeries"));
 var InParallel_1 = __importDefault(require("./InParallel"));
 var PassThrough_1 = __importDefault(require("./PassThrough"));
+var t1 = InParallel_1.default(CatchError_1.default(function (val) { return val; }), function (val) { return val; });
+var t2 = InSeries_1.default(CatchError_1.default(t1), function (val) { return val; });
 describe('InParallel', function () {
     var LONG_CHAIN = InParallel_1.default.apply(void 0, Array(50000).fill(PassThrough_1.default));
     it('Parallel Performance', function (done) {
@@ -22,7 +25,7 @@ describe('InParallel', function () {
     it('test with 0 handlers', function (done) {
         Callbackify_1.default(InParallel_1.default())(done);
     });
-    it('works', Callbackify_1.default(InSeries_1.default(InParallel_1.default(function () { }, function () { return null; }, function () { return 1; }), Assert_1.default(function (_a) {
+    it('works', Callbackify_1.default(InSeries_1.default(function () { return 1; }, InParallel_1.default(function (a) { }, function (a) { return null; }, function (a) { return a; }), Assert_1.default(function (_a) {
         var r0 = _a[0], r1 = _a[1], r2 = _a[2];
         return r0 === undefined;
     }, 'empty results failed'), Assert_1.default(function (_a) {

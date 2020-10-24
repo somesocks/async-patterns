@@ -10,6 +10,16 @@ import InOrder from './InOrder';
 import InParallel from './InParallel';
 import PassThrough from './PassThrough';
 
+let t1 = InParallel(
+  CatchError((val) => val),
+  (val) => val
+);
+
+let t2 = InSeries(
+  CatchError(t1),
+  (val) => val
+);
+
 describe('InParallel', () => {
 	const LONG_CHAIN = InParallel(
 		...Array(50000).fill(PassThrough)
@@ -34,10 +44,11 @@ describe('InParallel', () => {
 	it('works',
 		Callbackify(
 			InSeries(
+        () => 1,
 				InParallel(
-					() => {},
-					() => null,
-					() => 1
+					(a : number) => {},
+					(a) => null,
+					(a : number) => a
 				),
 				Assert(
 					([ r0, r1, r2 ]) => r0 === undefined,

@@ -22,6 +22,20 @@ let t2 = InOrder(
   async (val) => val + 1
 );
 
+let t3 = InOrder(
+  (val) => Promise.resolve(val),
+  (val) => Promise.resolve(val),
+  // (val) => val + 1,
+  // // (val : string) => val + 1,
+  // async (val) => val + 1
+);
+
+let t4 = (action) => Promise.resolve(action);
+
+let t5 = InOrder(t4, t4);
+
+let t6 = InOrder(t5, t5);
+
 describe('InOrder', () => {
 	it('Long Chain Performance', (done) => {
 		const chain = Callbackify(
