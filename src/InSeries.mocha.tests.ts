@@ -16,6 +16,8 @@ let t1 = InSeries(
   PassThrough,
   // Logging('foo'),
   (a : number) => a + 1,
+  (a : number) => a + 1,
+  (a : number) => a + 1,
   PassThrough,
   (b : number) => b + '1',
   PassThrough,

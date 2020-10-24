@@ -45,7 +45,7 @@ var InSeries_1 = __importDefault(require("./InSeries"));
 var PassThrough_1 = __importDefault(require("./PassThrough"));
 var t1 = InSeries_1.default(PassThrough_1.default, 
 // Logging('foo'),
-function (a) { return a + 1; }, PassThrough_1.default, function (b) { return b + '1'; }, PassThrough_1.default, function (c) { return Boolean(c); }, 
+function (a) { return a + 1; }, function (a) { return a + 1; }, function (a) { return a + 1; }, PassThrough_1.default, function (b) { return b + '1'; }, PassThrough_1.default, function (c) { return Boolean(c); }, 
 // Logging('foo'),
 PassThrough_1.default);
 var t2 = InSeries_1.default(function (a) { return a + 1; }, function (b) { return b + '1'; }, function (c) { return Boolean(c); });
