@@ -12,13 +12,43 @@ import PassThrough from './PassThrough';
 
 let t1 = InParallel(
   CatchError((val) => val),
-  (val) => val
+  (val : number) => val
 );
 
 let t2 = InSeries(
   CatchError(t1),
   (val) => val
 );
+
+let t3 = InParallel(
+  (result : string) => result,
+  (result : number) => result,
+  () => 1,
+);
+
+let t4 = InParallel(
+  () => 1,
+  () => 1,
+);
+
+let a7 = [
+  (val : { foo: number }) => val.foo + 1,
+  (val : { bar: number }) => val.bar + 1,
+];
+
+let t5 = InParallel(...a7);
+
+let t6 = InParallel(...(a7 as any[]));
+let r = t6();
+
+let t7 = InParallel(
+  (result : string) => result,
+  (result : string) => result,
+  () => 1,
+);
+
+// t7();
+t7('foo');
 
 describe('InParallel', () => {
 	const LONG_CHAIN = InParallel(

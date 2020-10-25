@@ -6,6 +6,7 @@ import InSeries from './InSeries';
 import Promisify from './Promisify';
 import Delay from './Delay';
 import If from './If';
+// import InOrder from './InOrder';
 import InOrder from './InOrder';
 import PassThrough from './PassThrough';
 
@@ -30,11 +31,18 @@ let t3 = InOrder(
   // async (val) => val + 1
 );
 
-let t4 = (action) => Promise.resolve(action);
+let t4 = (action : number) => Promise.resolve(action);
 
 let t5 = InOrder(t4, t4);
 
 let t6 = InOrder(t5, t5);
+
+let a7 = [
+  (val : { foo: number }) => val.foo + 1,
+  (val : { bar: number }) => val.bar + 1,
+];
+
+let t7 = InOrder(...a7);
 
 describe('InOrder', () => {
 	it('Long Chain Performance', (done) => {

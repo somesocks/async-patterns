@@ -1,4 +1,117 @@
-import { ParallelArgs, ParallelResult } from './InParallel.types';
+declare type Task = (...args: any) => any;
+declare type PromiseResult<T> = T extends Promise<infer U> ? U : T;
+declare type Returns<T, DEFAULT = any> = T extends (...args: any) => any ? ReturnType<T> : DEFAULT;
+declare type Accepts<T, DEFAULT = any> = T extends (...args: any) => any ? Parameters<T> : DEFAULT;
+declare type RET<T> = Returns<T>;
+declare type ACC<T> = Accepts<T, any[]>;
+declare type RES_UNBOX<T> = T extends {
+    brand: '5Z7RupztR4SHT30zgDbkfA';
+    head: infer U;
+    tail: infer V;
+} ? [U, ...RES_UNBOX2<V>] : T extends {
+    brand: 'aegqPhq3SqmnD9Cvp7OhXQ';
+    head: infer U;
+} ? [U] : T extends {
+    brand: 'FuAKcRSZRzyuO6apiynTGQ';
+} ? [] : never;
+declare type RES_UNBOX2<T> = T extends {
+    brand: '5Z7RupztR4SHT30zgDbkfA';
+    head: infer U;
+    tail: infer V;
+} ? [U, ...RES_UNBOX3<V>] : T extends {
+    brand: 'aegqPhq3SqmnD9Cvp7OhXQ';
+    head: infer U;
+} ? [U] : T extends {
+    brand: 'FuAKcRSZRzyuO6apiynTGQ';
+} ? [] : never;
+declare type RES_UNBOX3<T> = T extends {
+    brand: '5Z7RupztR4SHT30zgDbkfA';
+    head: infer U;
+    tail: infer V;
+} ? [U, ...RES_UNBOX4<V>] : T extends {
+    brand: 'aegqPhq3SqmnD9Cvp7OhXQ';
+    head: infer U;
+} ? [U] : T extends {
+    brand: 'FuAKcRSZRzyuO6apiynTGQ';
+} ? [] : never;
+declare type RES_UNBOX4<T> = T extends {
+    brand: '5Z7RupztR4SHT30zgDbkfA';
+    head: infer U;
+    tail: infer V;
+} ? [U, ...RES_UNBOX5<V>] : T extends {
+    brand: 'aegqPhq3SqmnD9Cvp7OhXQ';
+    head: infer U;
+} ? [U] : T extends {
+    brand: 'FuAKcRSZRzyuO6apiynTGQ';
+} ? [] : never;
+declare type RES_UNBOX5<T> = T extends {
+    brand: '5Z7RupztR4SHT30zgDbkfA';
+    head: infer U;
+    tail: infer V;
+} ? [U, ...RES_UNBOX6<V>] : T extends {
+    brand: 'aegqPhq3SqmnD9Cvp7OhXQ';
+    head: infer U;
+} ? [U] : T extends {
+    brand: 'FuAKcRSZRzyuO6apiynTGQ';
+} ? [] : never;
+declare type RES_UNBOX6<T> = T extends {
+    brand: '5Z7RupztR4SHT30zgDbkfA';
+    head: infer U;
+    tail: infer V;
+} ? [U, ...RES_UNBOX7<V>] : T extends {
+    brand: 'aegqPhq3SqmnD9Cvp7OhXQ';
+    head: infer U;
+} ? [U] : T extends {
+    brand: 'FuAKcRSZRzyuO6apiynTGQ';
+} ? [] : never;
+declare type RES_UNBOX7<T> = T extends {
+    brand: '5Z7RupztR4SHT30zgDbkfA';
+    head: infer U;
+    tail: infer V;
+} ? [U, ...RES_UNBOX8<V>] : T extends {
+    brand: 'aegqPhq3SqmnD9Cvp7OhXQ';
+    head: infer U;
+} ? [U] : T extends {
+    brand: 'FuAKcRSZRzyuO6apiynTGQ';
+} ? [] : never;
+declare type RES_UNBOX8<T> = T extends {
+    brand: '5Z7RupztR4SHT30zgDbkfA';
+    head: infer U;
+    tail: infer V;
+} ? [U, ...RES_UNBOX9<V>] : T extends {
+    brand: 'aegqPhq3SqmnD9Cvp7OhXQ';
+    head: infer U;
+} ? [U] : T extends {
+    brand: 'FuAKcRSZRzyuO6apiynTGQ';
+} ? [] : never;
+declare type RES_UNBOX9<T> = [];
+declare type _BUILD_RES<T> = T extends Task ? PromiseResult<RET<T>> : never;
+declare type _RES<T extends any[]> = T extends [infer HEAD, ...infer TAIL] ? {
+    brand: '5Z7RupztR4SHT30zgDbkfA';
+    head: _BUILD_RES<HEAD>;
+    tail: _RES<TAIL>;
+} : T extends [infer HEAD] ? {
+    brand: 'aegqPhq3SqmnD9Cvp7OhXQ';
+    head: _BUILD_RES<HEAD>;
+} : {
+    brand: 'FuAKcRSZRzyuO6apiynTGQ';
+};
+declare type RES<T extends any[]> = RES_UNBOX<_RES<T>>;
+declare type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never;
+declare type IfEquals<T, U, Y = unknown, N = never> = (<G>() => G extends T ? 1 : 2) extends (<G>() => G extends U ? 1 : 2) ? Y : N;
+declare type ParallelArg<T> = T extends Task ? ACC<T> extends [infer U] ? [IfEquals<U, any, unknown, U>] : ACC<T> extends [] ? unknown[] : any : unknown[];
+declare type BoxedParallelArgs<T extends Task[]> = {
+    [P in keyof T]: {
+        _box: ParallelArg<T[P]>;
+    };
+}[Exclude<keyof T, keyof any[]>];
+declare type UnboxIntersection<T> = T extends {
+    _box: infer U;
+} ? U : never;
+declare type ParallelTask = Task;
+declare type ParallelArgs<T extends ParallelTask[]> = T extends [...infer U] ? UnboxIntersection<UnionToIntersection<BoxedParallelArgs<T>>> : T extends (infer U)[] ? ParallelArg<U> : [
+];
+declare type ParallelResult<T extends ParallelTask[]> = T extends [...infer U] ? RES<T> : T extends (infer U)[] ? _BUILD_RES<U> : unknown;
 /**
 * ```javascript
 *
@@ -19,95 +132,5 @@ import { ParallelArgs, ParallelResult } from './InParallel.types';
 * @returns {function} an async wrapper function that runs all the tasks in parallel, and returns an array of results
 * @memberof async-patterns
 */
-declare const InParallel: <T extends import("./types").Task[]>(...tasks: T) => (args: (({ [P in keyof T]: {
-    _box: T[P] extends import("./types").Task ? <G>() => G extends import("./types").Accepts<T[P], any[]>[0] ? 1 : 2 extends <G_1>() => G_1 extends any ? 1 : 2 ? unknown : import("./types").Accepts<T[P], any[]>[0] : unknown;
-}; }[Exclude<keyof T, number | "toString" | "toLocaleString" | "concat" | "indexOf" | "lastIndexOf" | "slice" | "length" | "push" | "reverse" | "map" | "filter" | "pop" | "join" | "shift" | "sort" | "splice" | "unshift" | "every" | "some" | "forEach" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values">] extends any ? (k: { [P in keyof T]: {
-    _box: T[P] extends import("./types").Task ? <G>() => G extends import("./types").Accepts<T[P], any[]>[0] ? 1 : 2 extends <G_1>() => G_1 extends any ? 1 : 2 ? unknown : import("./types").Accepts<T[P], any[]>[0] : unknown;
-}; }[Exclude<keyof T, number | "toString" | "toLocaleString" | "concat" | "indexOf" | "lastIndexOf" | "slice" | "length" | "push" | "reverse" | "map" | "filter" | "pop" | "join" | "shift" | "sort" | "splice" | "unshift" | "every" | "some" | "forEach" | "reduce" | "reduceRight" | "find" | "findIndex" | "fill" | "copyWithin" | "entries" | "keys" | "values">]) => void : never) extends (k: infer I) => void ? I : never) extends {
-    _box: infer U;
-} ? U : never) => Promise<import("./types").PromiseResult<(T extends [infer HEAD, ...infer TAIL] ? {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: HEAD extends import("./types").Task ? import("./types").PromiseResult<import("./types").Returns<HEAD, any>> : never;
-    tail: TAIL extends [infer HEAD, ...infer TAIL] ? any : TAIL extends [infer HEAD_1] ? {
-        brand: "5Z7RupztR4SHT30zgDbkfA";
-        head: HEAD_1 extends import("./types").Task ? import("./types").PromiseResult<import("./types").Returns<HEAD_1, any>> : never;
-    } : {
-        brand: "5Z7RupztR4SHT30zgDbkfA";
-    };
-} : T extends [infer HEAD_1] ? {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: HEAD_1 extends import("./types").Task ? import("./types").PromiseResult<import("./types").Returns<HEAD_1, any>> : never;
-} : {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-}) extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_1;
-    tail: infer V;
-} ? [U_1, ...V extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_2;
-    tail: infer V_1;
-} ? [U_2, ...V_1 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_3;
-    tail: infer V_2;
-} ? [U_3, ...V_2 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_4;
-    tail: infer V_3;
-} ? [U_4, ...V_3 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_5;
-    tail: infer V_4;
-} ? [U_5, ...V_4 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_6;
-    tail: infer V_5;
-} ? [U_6, ...V_5 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_7;
-    tail: infer V_6;
-} ? [U_7, ...V_6 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_8;
-    tail: infer V_7;
-} ? [U_8] : V_6 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_9;
-} ? [U_9] : []] : V_5 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_10;
-} ? [U_10] : []] : V_4 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_11;
-} ? [U_11] : []] : V_3 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_12;
-} ? [U_12] : []] : V_2 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_13;
-} ? [U_13] : []] : V_1 extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_14;
-} ? [U_14] : []] : V extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_15;
-} ? [U_15] : []] : (T extends [infer HEAD, ...infer TAIL] ? {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: HEAD extends import("./types").Task ? import("./types").PromiseResult<import("./types").Returns<HEAD, any>> : never;
-    tail: TAIL extends [infer HEAD, ...infer TAIL] ? any : TAIL extends [infer HEAD_1] ? {
-        brand: "5Z7RupztR4SHT30zgDbkfA";
-        head: HEAD_1 extends import("./types").Task ? import("./types").PromiseResult<import("./types").Returns<HEAD_1, any>> : never;
-    } : {
-        brand: "5Z7RupztR4SHT30zgDbkfA";
-    };
-} : T extends [infer HEAD_1] ? {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: HEAD_1 extends import("./types").Task ? import("./types").PromiseResult<import("./types").Returns<HEAD_1, any>> : never;
-} : {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-}) extends {
-    brand: "5Z7RupztR4SHT30zgDbkfA";
-    head: infer U_16;
-} ? [U_16] : []>>;
+declare const InParallel: <T extends Task[]>(...tasks: T) => (...args: ParallelArgs<T>) => Promise<ParallelResult<T>>;
 export = InParallel;

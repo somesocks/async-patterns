@@ -11,6 +11,18 @@ var InParallel_1 = __importDefault(require("./InParallel"));
 var PassThrough_1 = __importDefault(require("./PassThrough"));
 var t1 = InParallel_1.default(CatchError_1.default(function (val) { return val; }), function (val) { return val; });
 var t2 = InSeries_1.default(CatchError_1.default(t1), function (val) { return val; });
+var t3 = InParallel_1.default(function (result) { return result; }, function (result) { return result; }, function () { return 1; });
+var t4 = InParallel_1.default(function () { return 1; }, function () { return 1; });
+var a7 = [
+    function (val) { return val.foo + 1; },
+    function (val) { return val.bar + 1; },
+];
+var t5 = InParallel_1.default.apply(void 0, a7);
+var t6 = InParallel_1.default.apply(void 0, a7);
+var r = t6();
+var t7 = InParallel_1.default(function (result) { return result; }, function (result) { return result; }, function () { return 1; });
+// t7();
+t7('foo');
 describe('InParallel', function () {
     var LONG_CHAIN = InParallel_1.default.apply(void 0, Array(50000).fill(PassThrough_1.default));
     it('Parallel Performance', function (done) {
