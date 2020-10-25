@@ -1,7 +1,5 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
-import CallbackTask from './types/CallbackTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
 
 import _Promisify from './Promisify';
 import _Callbackify from './Callbackify';
@@ -33,7 +31,7 @@ const DEFAULT_KEY_FUNCTION : KeyFunction = function () {
 * @returns {AsyncTask}
 * @memberof async-patterns
 */
-function Memoize(_1 ?: AsyncTask | SyncTask, _2 ?: KeyFunction) : AsyncTask {
+function Memoize<T extends Task>(_1 ?: Task, _2 ?: KeyFunction) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
 	return _Promisify(
 		_Memoize(
 			_Callbackify(_1),

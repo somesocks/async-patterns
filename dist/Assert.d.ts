@@ -1,4 +1,4 @@
-import AsyncTask from './types/AsyncTask';
+import { PassThroughTask } from './PassThrough.types';
 /**
 *
 * ```javascript
@@ -25,5 +25,5 @@ import AsyncTask from './types/AsyncTask';
 * @returns {taskFunction} an assertion task
 * @memberof async-patterns
 */
-declare function Assert(validator: any, message?: any): AsyncTask;
+declare function Assert(validator: any, message?: any): PassThroughTask;
 export = Assert;

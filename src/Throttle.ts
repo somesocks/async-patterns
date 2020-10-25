@@ -1,6 +1,6 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
+
 import CallbackTask from './types/CallbackTask';
 
 import _Promisify from './Promisify';
@@ -18,7 +18,7 @@ import _Throttle from 'callback-patterns/Throttle';
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-function Throttle(_1 ?: AsyncTask | SyncTask, _2 ?: number) : AsyncTask {
+function Throttle<T extends Task>(_1 ?: Task, _2 ?: number) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
 	var task = _Callbackify(_1 || PassThrough);
 	var limit = _2 || 1;
 

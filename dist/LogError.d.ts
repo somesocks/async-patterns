@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
 /**
 * ```javascript
 *   let task = LogError(task);
@@ -13,5 +12,5 @@ import SyncTask from './types/SyncTask';
 * @returns {function} an async wrapper function around the task
 * @memberof async-patterns
 */
-declare const LogError: (task?: AsyncTask | SyncTask | undefined) => AsyncTask;
+declare const LogError: <T extends Task>(task?: T | undefined) => (...args: Accepts<T, any>) => Promise<PromiseResult<Returns<T, any>>>;
 export = LogError;

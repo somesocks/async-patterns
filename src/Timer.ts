@@ -1,6 +1,6 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
+
 import CallbackTask from './types/CallbackTask';
 
 import _Promisify from './Promisify';
@@ -23,7 +23,7 @@ var EMPTY_TASK = _Promisify(
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-function Timer(_1 ?: AsyncTask | SyncTask, _2 ?: string) : AsyncTask {
+function Timer<T extends Task>(_1 ?: Task, _2 ?: string) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
 	var task = _Callbackify(_1 || EMPTY_TASK);
 	var label = _2;
 

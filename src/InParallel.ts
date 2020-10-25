@@ -57,7 +57,27 @@ type RES_UNBOX8<T> =
   T extends { brand: 'aegqPhq3SqmnD9Cvp7OhXQ', head: infer U } ? [ U ] :
   T extends { brand: 'FuAKcRSZRzyuO6apiynTGQ' } ? [ ] :
   never;
-type RES_UNBOX9<T> = [];
+type RES_UNBOX9<T> =
+  T extends { brand: '5Z7RupztR4SHT30zgDbkfA', head: infer U, tail: infer V } ? [ U, ...RES_UNBOX10<V> ] :
+  T extends { brand: 'aegqPhq3SqmnD9Cvp7OhXQ', head: infer U } ? [ U ] :
+  T extends { brand: 'FuAKcRSZRzyuO6apiynTGQ' } ? [ ] :
+  never;
+type RES_UNBOX10<T> =
+  T extends { brand: '5Z7RupztR4SHT30zgDbkfA', head: infer U, tail: infer V } ? [ U, ...RES_UNBOX11<V> ] :
+  T extends { brand: 'aegqPhq3SqmnD9Cvp7OhXQ', head: infer U } ? [ U ] :
+  T extends { brand: 'FuAKcRSZRzyuO6apiynTGQ' } ? [ ] :
+  never;
+type RES_UNBOX11<T> =
+  T extends { brand: '5Z7RupztR4SHT30zgDbkfA', head: infer U, tail: infer V } ? [ U, ...RES_UNBOX12<V> ] :
+  T extends { brand: 'aegqPhq3SqmnD9Cvp7OhXQ', head: infer U } ? [ U ] :
+  T extends { brand: 'FuAKcRSZRzyuO6apiynTGQ' } ? [ ] :
+  never;
+type RES_UNBOX12<T> =
+  T extends { brand: '5Z7RupztR4SHT30zgDbkfA', head: infer U, tail: infer V } ? [ U, ...RES_UNBOX13<V> ] :
+  T extends { brand: 'aegqPhq3SqmnD9Cvp7OhXQ', head: infer U } ? [ U ] :
+  T extends { brand: 'FuAKcRSZRzyuO6apiynTGQ' } ? [ ] :
+  never;
+type RES_UNBOX13<T> = [];
 
 
 type _BUILD_RES<T> = T extends Task ? PromiseResult<RET<T>> : never;

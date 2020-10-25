@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
 /**
 * Wraps a task and ensures that only X number of instances of the task can be run in parallel.
 * Requests are queued up in an unbounded FIFO queue until they can be run.
@@ -8,5 +7,5 @@ import SyncTask from './types/SyncTask';
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-declare function Throttle(_1?: AsyncTask | SyncTask, _2?: number): AsyncTask;
+declare function Throttle<T extends Task>(_1?: Task, _2?: number): (...args: Accepts<T>) => Promise<PromiseResult<Returns<T>>>;
 export = Throttle;

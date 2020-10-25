@@ -1,4 +1,4 @@
-import AsyncTask from './types/AsyncTask';
+import { PassThroughTask } from './PassThrough.types';
 /**
 *
 * ```javascript
@@ -18,5 +18,5 @@ import AsyncTask from './types/AsyncTask';
 * @returns {taskFunction} a delay task
 * @memberof async-patterns
 */
-declare function Delay(_1?: number): AsyncTask;
+declare function Delay(_1?: number): PassThroughTask;
 export = Delay;

@@ -1,6 +1,6 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
+
 import CallbackTask from './types/CallbackTask';
 
 
@@ -21,7 +21,7 @@ var EMPTY_TASK = _Promisify(
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-function Retry(task ?: AsyncTask | SyncTask, options ?: any) : AsyncTask {
+function Retry<T extends Task>(task ?: Task, options ?: any) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
 	task = _Callbackify(task || EMPTY_TASK);
 
 	return _Promisify(

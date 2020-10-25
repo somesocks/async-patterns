@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
 /**
 *
 * ```javascript
@@ -24,5 +23,5 @@ import SyncTask from './types/SyncTask';
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-declare function TimeOut(_1?: AsyncTask | SyncTask, _2?: number): AsyncTask;
+declare function TimeOut<T extends Task>(_1?: Task, _2?: number): (...args: Accepts<T>) => Promise<PromiseResult<Returns<T>>>;
 export = TimeOut;

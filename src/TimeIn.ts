@@ -1,4 +1,6 @@
 
+import { Task, Accepts, Returns, PromiseResult } from './types';
+
 import AsyncTask from './types/AsyncTask';
 import SyncTask from './types/SyncTask';
 import CallbackTask from './types/CallbackTask';
@@ -31,7 +33,7 @@ import _TimeIn from 'callback-patterns/TimeIn';
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-function TimeIn(_1 ?: AsyncTask | SyncTask, _2 ?: number) : AsyncTask {
+function TimeIn<T extends Task>(_1 ?: Task, _2 ?: number) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
 	var task = _Callbackify(_1 || PassThrough);
 	var ms = _2 || 1000;
 

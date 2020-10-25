@@ -1,8 +1,6 @@
 
 import { Task, PromiseResult, Accepts, Returns } from './types';
 
-import { PassThroughTask } from './PassThrough.types';
-
 import PassThrough from './PassThrough';
 
 /**

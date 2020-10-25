@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
 /**
 * Wraps a task and logs how long it takes to finish, or fail.
 * @param {taskFunction} task - the task to wrap.
@@ -7,5 +6,5 @@ import SyncTask from './types/SyncTask';
 * @returns {taskFunction} a task
 * @memberof async-patterns
 */
-declare function Timer(_1?: AsyncTask | SyncTask, _2?: string): AsyncTask;
+declare function Timer<T extends Task>(_1?: Task, _2?: string): (...args: Accepts<T>) => Promise<PromiseResult<Returns<T>>>;
 export = Timer;

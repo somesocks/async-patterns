@@ -1,6 +1,5 @@
 
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
 
 import PassThrough from './PassThrough';
 
@@ -17,7 +16,7 @@ import PassThrough from './PassThrough';
 * @returns {function} an async wrapper function around the task
 * @memberof async-patterns
 */
-const LogError = function LogError(task ?: AsyncTask | SyncTask) : AsyncTask {
+const LogError = function LogError<T extends Task>(task ?: T) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
 	const task2 = task || PassThrough;
 
 	return async function (request) {

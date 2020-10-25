@@ -1,5 +1,4 @@
-import AsyncTask from '../types/AsyncTask';
-import SyncTask from '../types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from '../types';
 /**
 * TraceError is an experimental wrapper that attempts to make errors more informative.
 * It does this by appending extra information to the stack of any error thrown in the task.
@@ -11,5 +10,5 @@ import SyncTask from '../types/SyncTask';
 * @returns {function} a wrapper function that modifies the stack trace of any errors thrown within
 * @memberof async-patterns.unstable
 */
-declare function TraceError(_1?: AsyncTask | SyncTask): AsyncTask;
+declare function TraceError<T extends Task>(_1?: Task): (...args: Accepts<T>) => Promise<PromiseResult<Returns<T>>>;
 export = TraceError;

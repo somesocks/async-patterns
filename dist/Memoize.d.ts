@@ -1,5 +1,4 @@
-import AsyncTask from './types/AsyncTask';
-import SyncTask from './types/SyncTask';
+import { Task, Accepts, Returns, PromiseResult } from './types';
 declare type KeyFunction = (...args: any[]) => string;
 /**
 * Memoize builds a wrapper function that caches results of previous executions.
@@ -18,5 +17,5 @@ declare type KeyFunction = (...args: any[]) => string;
 * @returns {AsyncTask}
 * @memberof async-patterns
 */
-declare function Memoize(_1?: AsyncTask | SyncTask, _2?: KeyFunction): AsyncTask;
+declare function Memoize<T extends Task>(_1?: Task, _2?: KeyFunction): (...args: Accepts<T>) => Promise<PromiseResult<Returns<T>>>;
 export = Memoize;

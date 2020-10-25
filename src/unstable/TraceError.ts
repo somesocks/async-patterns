@@ -1,7 +1,5 @@
 
-import AsyncTask from '../types/AsyncTask';
-import SyncTask from '../types/SyncTask';
-import CallbackTask from '../types/CallbackTask';
+import { Task, Accepts, Returns, PromiseResult } from '../types';
 
 import _Promisify from '../Promisify';
 import _Callbackify from '../Callbackify';
@@ -20,7 +18,7 @@ import _TraceError from 'callback-patterns/unstable/TraceError';
 * @returns {function} a wrapper function that modifies the stack trace of any errors thrown within
 * @memberof async-patterns.unstable
 */
-function TraceError(_1 ?: AsyncTask | SyncTask) : AsyncTask {
+function TraceError<T extends Task>(_1 ?: Task) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
 	return _Promisify(
 		_TraceError(
 			_Callbackify(_1)
