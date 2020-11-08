@@ -37,12 +37,12 @@ const DEFAULT_KEY_FUNCTION : KeyFunction = function () {
 * @returns {AsyncTask}
 * @memberof async-patterns
 */
-function Memoize<T extends Task>(_1 ?: Task, _2 ?: KeyFunction, _3 ?: _MemoizeCache) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
+function Memoize<T extends Task>(task ?: Task, keyFunction ?: KeyFunction, cache ?: _MemoizeCache) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
 	return _Promisify(
 		_Memoize(
-			_Callbackify(_1),
-			_2 || DEFAULT_KEY_FUNCTION,
-      _3
+			_Callbackify(task),
+			keyFunction || DEFAULT_KEY_FUNCTION,
+      cache
 		)
 	);
 }
@@ -50,5 +50,26 @@ function Memoize<T extends Task>(_1 ?: Task, _2 ?: KeyFunction, _3 ?: _MemoizeCa
 Memoize.ObjectCache = _Memoize.ObjectCache;
 
 Memoize.LRUCache = _Memoize.LRUCache;
+
+type TSWRMemoizeOptions = {
+  keyFunction ?: KeyFunction,
+  staleCache ?: _MemoizeCache,
+  refreshCache ?: _MemoizeCache,
+};
+
+function SWRMemoize<T extends Task>(task ?: Task, options ?: TSWRMemoizeOptions) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
+	return _Promisify(
+		_Memoize.SWR(
+			_Callbackify(task),
+      options
+		)
+	);
+}
+
+SWRMemoize.ObjectCache = _Memoize.ObjectCache;
+
+SWRMemoize.LRUCache = _Memoize.LRUCache;
+
+Memoize.SWR = SWRMemoize;
 
 export = Memoize;

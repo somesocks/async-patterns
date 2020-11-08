@@ -22,7 +22,7 @@ var t6 = InParallel_1.default.apply(void 0, a7);
 var r = t6();
 var t7 = InParallel_1.default(function (result) { return result; }, function (result) { return result; }, function () { return 1; });
 // t7();
-t7('foo');
+// t7('foo');
 describe('InParallel', function () {
     var LONG_CHAIN = InParallel_1.default.apply(void 0, Array(50000).fill(PassThrough_1.default));
     it('Parallel Performance', function (done) {

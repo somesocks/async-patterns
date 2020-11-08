@@ -1,6 +1,6 @@
 {
   "name": "async-patterns",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A a collection of design patterns for async/await or promise-driven async code",
   "main": "./index.js",
   "scripts": {},
@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/somesocks/async-patterns",
   "dependencies": {
-    "callback-patterns": "2.4.0"
+    "callback-patterns": "2.5.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.7",

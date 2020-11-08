@@ -48,7 +48,7 @@ let t7 = InParallel(
 );
 
 // t7();
-t7('foo');
+// t7('foo');
 
 describe('InParallel', () => {
 	const LONG_CHAIN = InParallel(

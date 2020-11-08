@@ -12,22 +12,23 @@ import InParallel from './InParallel';
 import PassThrough from './PassThrough';
 import Memoize from './Memoize';
 
-describe('Memoize', () => {
+
+describe('Memoize.SWR', () => {
 	it('Function.length should be at least 1', () => {
-		if (Memoize().length < 1) { throw new Error(); }
-		if (Memoize(() => {}).length < 1) { throw new Error(); }
+		if (Memoize.SWR().length < 1) { throw new Error(); }
+		if (Memoize.SWR(() => {}).length < 1) { throw new Error(); }
 	});
 
 	it('test with 0 handlers', (done) => {
 		Callbackify(
-			Memoize()
+			Memoize.SWR()
 		)
 		(done);
 	});
 
 	it('catches errors', (done) => {
 		Callbackify(
-			Memoize(
+			Memoize.SWR(
 				() => { throw new Error('error'); }
 			)
 		)
@@ -37,7 +38,7 @@ describe('Memoize', () => {
 
 	it('memoize works', (done) => {
 		let counter = 0;
-		let task = Memoize(
+		let task = Memoize.SWR(
 			() => { ++counter; return counter; }
 		);
 
@@ -60,10 +61,11 @@ describe('Memoize', () => {
 
   it('memoize works (with a custom cache)', (done) => {
 		let counter = 0;
-		let task = Memoize(
+		let task = Memoize.SWR(
 			() => { ++counter; return counter; },
-      undefined,
-      Memoize.ObjectCache()
+      {
+        staleCache: Memoize.ObjectCache()
+      }
 		);
 
 		let test = InSeries(
@@ -85,10 +87,11 @@ describe('Memoize', () => {
 
   it('memoize works (with a custom cache 2)', (done) => {
 		let counter = 0;
-		let task = Memoize(
+		let task = Memoize.SWR(
 			() => { ++counter; return counter; },
-      undefined,
-      Memoize.LRUCache(999999)
+      {
+        staleCache: Memoize.LRUCache(999999)
+      }
 		);
 
 		let test = InSeries(
@@ -102,7 +105,8 @@ describe('Memoize', () => {
 			Assert(
 				() => counter === 1,
 				() => `expected counter to be 1, got ${counter}`
-			)
+			),
+      () => console.log('counter', counter)
 		);
 
 		Callbackify(test)(done);
@@ -114,7 +118,7 @@ describe('Memoize', () => {
 			Delay(1000)
 		);
 
-		let fastTask = Memoize(slowTask);
+		let fastTask = Memoize.SWR(slowTask);
 
 		let start;
 		let finish;
@@ -138,7 +142,7 @@ describe('Memoize', () => {
 	});
 
 
-	const MEMOIZED_TASK = Memoize(PassThrough);
+	const MEMOIZED_TASK = Memoize.SWR(PassThrough);
 
 	const SHORT_CHAIN =
 		InSeries(
