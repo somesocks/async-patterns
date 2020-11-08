@@ -58,6 +58,56 @@ describe('Memoize', () => {
 		Callbackify(test)(done);
 	});
 
+  it('memoize works (with a custom cache)', (done) => {
+		let counter = 0;
+		let task = Memoize(
+			() => { ++counter; return counter; },
+      undefined,
+      new Memoize.ObjectCache()
+		);
+
+		var test = InSeries(
+			() => task(),
+			() => task(),
+			() => task(),
+			Assert(
+				(val) => val === 1,
+				(val) => `expected val to be 1, got ${val}`
+			),
+			Assert(
+				() => counter === 1,
+				() => `expected counter to be 1, got ${counter}`
+			)
+		);
+
+		Callbackify(test)(done);
+	});
+
+  it('memoize works (with a custom cache 2)', (done) => {
+		let counter = 0;
+		let task = Memoize(
+			() => { ++counter; return counter; },
+      undefined,
+      new Memoize.LRUCache(999999)
+		);
+
+		var test = InSeries(
+			() => task(),
+			() => task(),
+			() => task(),
+			Assert(
+				(val) => val === 1,
+				(val) => `expected val to be 1, got ${val}`
+			),
+			Assert(
+				() => counter === 1,
+				() => `expected counter to be 1, got ${counter}`
+			)
+		);
+
+		Callbackify(test)(done);
+	});
+
 	it('memoize speeds up task', (done) => {
 		var slowTask = InSeries(
 			PassThrough,

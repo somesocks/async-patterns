@@ -30,6 +30,18 @@ describe('Memoize', function () {
         var test = InSeries_1.default(function () { return task(); }, function () { return task(); }, function () { return task(); }, Assert_1.default(function (val) { return val === 1; }, function (val) { return "expected val to be 1, got " + val; }), Assert_1.default(function () { return counter === 1; }, function () { return "expected counter to be 1, got " + counter; }));
         Callbackify_1.default(test)(done);
     });
+    it('memoize works (with a custom cache)', function (done) {
+        var counter = 0;
+        var task = Memoize_1.default(function () { ++counter; return counter; }, undefined, new Memoize_1.default.ObjectCache());
+        var test = InSeries_1.default(function () { return task(); }, function () { return task(); }, function () { return task(); }, Assert_1.default(function (val) { return val === 1; }, function (val) { return "expected val to be 1, got " + val; }), Assert_1.default(function () { return counter === 1; }, function () { return "expected counter to be 1, got " + counter; }));
+        Callbackify_1.default(test)(done);
+    });
+    it('memoize works (with a custom cache 2)', function (done) {
+        var counter = 0;
+        var task = Memoize_1.default(function () { ++counter; return counter; }, undefined, new Memoize_1.default.LRUCache(999999));
+        var test = InSeries_1.default(function () { return task(); }, function () { return task(); }, function () { return task(); }, Assert_1.default(function (val) { return val === 1; }, function (val) { return "expected val to be 1, got " + val; }), Assert_1.default(function () { return counter === 1; }, function () { return "expected counter to be 1, got " + counter; }));
+        Callbackify_1.default(test)(done);
+    });
     it('memoize speeds up task', function (done) {
         var slowTask = InSeries_1.default(PassThrough_1.default, Delay_1.default(1000));
         var fastTask = Memoize_1.default(slowTask);

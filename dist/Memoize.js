@@ -26,7 +26,9 @@ var DEFAULT_KEY_FUNCTION = function () {
 * @returns {AsyncTask}
 * @memberof async-patterns
 */
-function Memoize(_1, _2) {
-    return Promisify_1.default(Memoize_1.default(Callbackify_1.default(_1), _2 || DEFAULT_KEY_FUNCTION));
+function Memoize(_1, _2, _3) {
+    return Promisify_1.default(Memoize_1.default(Callbackify_1.default(_1), _2 || DEFAULT_KEY_FUNCTION, _3));
 }
+Memoize.ObjectCache = Memoize_1.default.ObjectCache;
+Memoize.LRUCache = Memoize_1.default.LRUCache;
 module.exports = Memoize;

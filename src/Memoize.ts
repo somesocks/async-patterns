@@ -9,6 +9,12 @@ import _Memoize from 'callback-patterns/Memoize';
 
 type KeyFunction = (...args : any[]) => string;
 
+type _MemoizeCache = {
+	has : (key : string) => boolean,
+	get : (key : string) => any,
+	set : (key : string, val : any) => void,
+	del : (key : string) => void,
+}
 const DEFAULT_KEY_FUNCTION : KeyFunction = function () {
 	var args = Array.prototype.slice.call(arguments);
 	return JSON.stringify(args);
@@ -31,13 +37,18 @@ const DEFAULT_KEY_FUNCTION : KeyFunction = function () {
 * @returns {AsyncTask}
 * @memberof async-patterns
 */
-function Memoize<T extends Task>(_1 ?: Task, _2 ?: KeyFunction) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
+function Memoize<T extends Task>(_1 ?: Task, _2 ?: KeyFunction, _3 ?: _MemoizeCache) : (...args : Accepts<T>) => Promise<PromiseResult<Returns<T>>> {
 	return _Promisify(
 		_Memoize(
 			_Callbackify(_1),
 			_2 || DEFAULT_KEY_FUNCTION,
+      _3
 		)
 	);
 }
+
+Memoize.ObjectCache = _Memoize.ObjectCache;
+
+Memoize.LRUCache = _Memoize.LRUCache;
 
 export = Memoize;
