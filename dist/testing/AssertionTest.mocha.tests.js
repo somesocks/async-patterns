@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var Assert_1 = __importDefault(require("../Assert"));
-var Callbackify_1 = __importDefault(require("../Callbackify"));
+// import Callbackify from '../Callbackify';
 var Promisify_1 = __importDefault(require("../Promisify"));
 var Logging_1 = __importDefault(require("../Logging"));
 var InOrder_1 = __importDefault(require("../InOrder"));
@@ -73,12 +73,42 @@ Assert_1.default(function (_a) {
 // nothing to teardown
 function () { return null; })
     .build();
+var LogErrorTest = AssertionTest_1.default()
+    .describe('AssertionTest.LogError works')
+    .execute(function () { throw new Error('test error'); })
+    .verify(AssertionTest_1.default.LogError)
+    .build();
+var LogSetupTest = AssertionTest_1.default()
+    .describe('AssertionTest.LogSetup works')
+    .setup(function () { return 1; })
+    .prepare(function (setup) { return setup + 1; })
+    .execute(function (request) { return request + 1; })
+    .verify(AssertionTest_1.default.LogSetup)
+    .build();
+var LogRequestTest = AssertionTest_1.default()
+    .describe('AssertionTest.LogRequestTest works')
+    .setup(function () { return 1; })
+    .prepare(function (setup) { return setup + 1; })
+    .execute(function (request) { return request + 1; })
+    .verify(AssertionTest_1.default.LogRequest)
+    .build();
+var LogResultTest = AssertionTest_1.default()
+    .describe('AssertionTest.LogResultTest works')
+    .setup(function () { return 1; })
+    .prepare(function (setup) { return setup + 1; })
+    .execute(function (request) { return request + 1; })
+    .verify(AssertionTest_1.default.LogResult)
+    .build();
 var TESTS = [
     EmptyTest,
     SetupTest,
     SampleTest,
     PingTest,
+    LogErrorTest,
+    LogSetupTest,
+    LogRequestTest,
+    LogResultTest,
 ];
 describe('AssertionTest', function () {
-    TESTS.forEach(function (test, i) { return it(test.label || "test " + i, Callbackify_1.default(test)); });
+    TESTS.forEach(function (test, i) { return it(test.label, function () { return test(); }); });
 });

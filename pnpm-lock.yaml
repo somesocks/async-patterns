@@ -11,7 +11,7 @@ devDependencies:
   ping: 0.2.2
   typescript: 4.0.3
   vet: 2.5.1
-lockfileVersion: 5.1
+lockfileVersion: 5.2
 packages:
   /@babel/code-frame/7.10.4:
     dependencies:
@@ -1743,5 +1743,5 @@ specifiers:
   jsdoc-to-markdown: ^4.0.1
   mocha: 5.1.1
   ping: ^0.2.2
-  typescript: 4.0.3
-  vet: 2.5.1
+  typescript: ^4.0.3
+  vet: ^2.5.1

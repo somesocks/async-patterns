@@ -38,9 +38,12 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+Object.defineProperty(exports, "__esModule", { value: true });
 var Assert_1 = __importDefault(require("../Assert"));
 var InOrder_1 = __importDefault(require("../InOrder"));
 var CatchError_1 = __importDefault(require("../CatchError"));
+var Logging_1 = __importDefault(require("../Logging"));
+var If_1 = __importDefault(require("../If"));
 var TraceError_1 = __importDefault(require("../unstable/TraceError"));
 var DEFAULT_SETUP = function () { };
 var DEFAULT_PREPARE = function (setup) { };
@@ -50,8 +53,7 @@ var DEFAULT_VERIFY = function (test) {
         throw test.error;
     }
 };
-var DEFAULT_TEARDOWN = function (test) {
-};
+var DEFAULT_TEARDOWN = function (test) { };
 /**
 *
 * ```javascript
@@ -110,7 +112,7 @@ function AssertionTest() {
     self._setup = DEFAULT_SETUP;
     self._prepare = DEFAULT_PREPARE;
     self._execute = DEFAULT_EXECUTE;
-    self._verify = [DEFAULT_VERIFY];
+    self._verify = DEFAULT_VERIFY;
     self._teardown = DEFAULT_TEARDOWN;
     return self;
 }
@@ -189,7 +191,7 @@ AssertionTest.prototype.verify = function verify() {
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
-    this._verify = args;
+    this._verify = InOrder_1.default.apply(void 0, args);
     return this;
 };
 /**
@@ -218,14 +220,15 @@ AssertionTest.prototype.teardown = function teardown(_teardown) {
 AssertionTest.prototype.build = function build() {
     var _a = this, _setup = _a._setup, _prepare = _a._prepare, _execute = _a._execute, _verify = _a._verify, _teardown = _a._teardown, _description = _a._description;
     _execute = CatchError_1.default(_execute);
-    _verify = InOrder_1.default.apply(void 0, _verify);
     var test = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var test, _a, _b, _c, result, error;
+            var test, _a, _b, _c, result, error, err_1;
             return __generator(this, function (_d) {
                 switch (_d.label) {
                     case 0:
-                        test = {};
+                        test = {
+                            label: _description
+                        };
                         _a = test;
                         return [4 /*yield*/, _setup()];
                     case 1:
@@ -241,23 +244,29 @@ AssertionTest.prototype.build = function build() {
                         test.error = error;
                         _d.label = 4;
                     case 4:
-                        _d.trys.push([4, , 6, 8]);
+                        _d.trys.push([4, 6, 7, 9]);
                         return [4 /*yield*/, _verify(test)];
                     case 5:
                         _d.sent();
-                        return [3 /*break*/, 8];
-                    case 6: return [4 /*yield*/, _teardown(test)];
-                    case 7:
+                        return [3 /*break*/, 9];
+                    case 6:
+                        err_1 = _d.sent();
+                        throw err_1;
+                    case 7: return [4 /*yield*/, _teardown(test)];
+                    case 8:
                         _d.sent();
                         return [7 /*endfinally*/];
-                    case 8: return [2 /*return*/];
+                    case 9: return [2 /*return*/];
                 }
             });
         });
     };
     test = TraceError_1.default(test);
-    test.label = _description;
-    return test;
+    // this wrapper is to enforce a function.length of 0,
+    // without changing the underlying Promisify implementation
+    var wrapper = (function () { return test(); });
+    wrapper.label = _description;
+    return wrapper;
 };
 /**
 * verifier function to make sure test DID NOT throw an error
@@ -271,4 +280,8 @@ AssertionTest.VerifyErrorWasNotThrown = Assert_1.default(function (context) { re
 * @memberof async-patterns.testing.AssertionTest
 */
 AssertionTest.VerifyErrorWasThrown = Assert_1.default(function (context) { return context.error != null; }, 'AssertionTest.VerifyErrorWasThrown: error was not thrown');
-module.exports = AssertionTest;
+AssertionTest.LogError = If_1.default(function (context) { return context.error != null; }, Logging_1.default(function (context) { return "(" + context.label + ") test error:"; }, function (context) { return context.error; }));
+AssertionTest.LogSetup = If_1.default(Logging_1.default(function (context) { return "(" + context.label + ") test setup:"; }, function (context) { return context.setup; }));
+AssertionTest.LogRequest = If_1.default(Logging_1.default(function (context) { return "(" + context.label + ") test request:"; }, function (context) { return context.request; }));
+AssertionTest.LogResult = If_1.default(Logging_1.default(function (context) { return "(" + context.label + ") test result:"; }, function (context) { return context.result; }));
+exports.default = AssertionTest;

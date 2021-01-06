@@ -2,50 +2,51 @@
 import Assert from '../Assert';
 import InOrder from '../InOrder';
 import CatchError from '../CatchError';
+import Logging from '../Logging';
+import If from '../If';
 
 import TraceError from '../unstable/TraceError';
 
-interface AsyncFunction {
-	(...args : any[]) : Promise<any>;
-	label ?: string,
-}
+export type TAssertionTest = {
+	() : Promise<any>;
+	label : string,
+};
 
-interface SetupTask {
+export type TSetupTask = {
 	() : any | Promise<any>
-}
+};
 
-interface PrepareTask {
+export type TPrepareTask = {
 	(setup ?: any) : any | Promise<any>
-}
+};
 
-interface ExecuteTask {
+export type TExecuteTask = {
 	(request ?: any) : any | Promise<any>
-}
+};
 
-interface VerifyTask {
-	(test : { setup ?: any, request ?: any, error ?: any, result ?: any }) : any | Promise<any>
-}
+export type TVerifyTask = {
+	(test : { label : string, setup ?: any, request ?: any, error ?: any, result ?: any }) : any | Promise<any>
+};
 
-interface TeardownTask {
-	(test : { setup ?: any, request ?: any, error ?: any, result ?: any }) : any | Promise<any>
-}
+export type TTeardownTask = {
+	(test : { label : string, setup ?: any, request ?: any, error ?: any, result ?: any }) : any | Promise<any>
+};
 
-const DEFAULT_SETUP = function () {};
+const DEFAULT_SETUP : TSetupTask = function () {};
 
-const DEFAULT_PREPARE= function (setup) {};
+const DEFAULT_PREPARE : TPrepareTask = function (setup) {};
 
-const DEFAULT_EXECUTE = function (request) {};
+const DEFAULT_EXECUTE : TExecuteTask = function (request) {};
 
-const DEFAULT_VERIFY = function (test) {
+const DEFAULT_VERIFY : TVerifyTask = function (test) {
 	if (test.error) {
 		throw test.error;
 	}
 };
 
-const DEFAULT_TEARDOWN = function (test) {
-};
+const DEFAULT_TEARDOWN : TTeardownTask = function (test) { };
 
-interface IAssertionTest {
+export type TAssertionTestBuilder = {
 
 	/**
 	*
@@ -57,7 +58,7 @@ interface IAssertionTest {
 	* @returns {AssertionTest} this
 	* @memberof async-patterns.testing.AssertionTest#
 	*/
-	describe(description : string) : IAssertionTest;
+	describe(description : string) : TAssertionTestBuilder;
 
 	/**
 	*
@@ -71,7 +72,7 @@ interface IAssertionTest {
 	* @returns {AssertionTest} this
 	* @memberof async-patterns.testing.AssertionTest#
 	*/
-	setup(setupTask : SetupTask) : IAssertionTest;
+	setup(setupTask : TSetupTask) : TAssertionTestBuilder;
 
 	/**
 	*
@@ -84,7 +85,7 @@ interface IAssertionTest {
 	* @returns {AssertionTest} this
 	* @memberof async-patterns.testing.AssertionTest#
 	*/
-	prepare(prepareTask : PrepareTask) : IAssertionTest;
+	prepare(prepareTask : TPrepareTask) : TAssertionTestBuilder;
 
 	/**
 	*
@@ -96,7 +97,7 @@ interface IAssertionTest {
 	* @returns {AssertionTest} this
 	* @memberof async-patterns.testing.AssertionTest#
 	*/
-	execute(executeTask : ExecuteTask) : IAssertionTest;
+	execute(executeTask : TExecuteTask) : TAssertionTestBuilder;
 
 	/**
 	*
@@ -109,7 +110,7 @@ interface IAssertionTest {
 	* @returns {AssertionTest} this
 	* @memberof async-patterns.testing.AssertionTest#
 	*/
-	verify(...verifyTasks : VerifyTask[]) : IAssertionTest;
+	verify(...verifyTasks : TVerifyTask[]) : TAssertionTestBuilder;
 
 	/**
 	*
@@ -122,7 +123,7 @@ interface IAssertionTest {
 	* @returns {AssertionTest} this
 	* @memberof async-patterns.testing.AssertionTest#
 	*/
-	teardown(teardownTask: TeardownTask) : IAssertionTest;
+	teardown(teardownTask: TTeardownTask) : TAssertionTestBuilder;
 
 	/**
 	*
@@ -132,9 +133,18 @@ interface IAssertionTest {
 	* @returns {function} callback-expecting test function
 	* @memberof async-patterns.testing.AssertionTest#
 	*/
-	build() : AsyncFunction;
+	build() : TAssertionTest;
 
 }
+
+type TAssertionTestBuilderImpl = TAssertionTestBuilder & {
+	_description : string,
+	_setup : TSetupTask,
+	_prepare : TPrepareTask,
+	_execute : TExecuteTask,
+	_verify : TVerifyTask,
+	_teardown : TTeardownTask,
+};
 
 /**
 *
@@ -187,8 +197,8 @@ interface IAssertionTest {
 * @constructor
 * @memberof async-patterns.testing
 */
-function AssertionTest(this : IAssertionTest | null | undefined | void) : IAssertionTest {
-	const self =
+function AssertionTest(this : TAssertionTestBuilderImpl | null | undefined | void) : TAssertionTestBuilder {
+	const self : TAssertionTestBuilderImpl =
 		this instanceof AssertionTest ?
 		this : Object.create(AssertionTest.prototype);
 
@@ -196,7 +206,7 @@ function AssertionTest(this : IAssertionTest | null | undefined | void) : IAsser
 	self._setup = DEFAULT_SETUP;
 	self._prepare = DEFAULT_PREPARE;
 	self._execute = DEFAULT_EXECUTE;
-	self._verify = [ DEFAULT_VERIFY ];
+	self._verify = DEFAULT_VERIFY;
 	self._teardown = DEFAULT_TEARDOWN;
 
 	return self;
@@ -212,7 +222,7 @@ function AssertionTest(this : IAssertionTest | null | undefined | void) : IAsser
 * @returns {AssertionTest} this
 * @memberof async-patterns.testing.AssertionTest#
 */
-AssertionTest.prototype.describe = function describe(description) {
+AssertionTest.prototype.describe = function describe(this : TAssertionTestBuilderImpl, description : string) {
 	this._description = description;
 	return this;
 };
@@ -229,7 +239,7 @@ AssertionTest.prototype.describe = function describe(description) {
 * @returns {AssertionTest} this
 * @memberof async-patterns.testing.AssertionTest#
 */
-AssertionTest.prototype.setup = function setup(_setup : () => any) {
+AssertionTest.prototype.setup = function setup(this : TAssertionTestBuilderImpl, _setup : TSetupTask) {
 	this._setup = _setup;
 	return this;
 };
@@ -245,7 +255,7 @@ AssertionTest.prototype.setup = function setup(_setup : () => any) {
 * @returns {AssertionTest} this
 * @memberof async-patterns.testing.AssertionTest#
 */
-AssertionTest.prototype.prepare = function prepare(_prepare : (setup ?: any) => any) {
+AssertionTest.prototype.prepare = function prepare(this : TAssertionTestBuilderImpl, _prepare : TPrepareTask) {
 	this._prepare = _prepare;
 	return this;
 };
@@ -260,7 +270,7 @@ AssertionTest.prototype.prepare = function prepare(_prepare : (setup ?: any) => 
 * @returns {AssertionTest} this
 * @memberof async-patterns.testing.AssertionTest#
 */
-AssertionTest.prototype.execute = function execute(_execute : (request ?: any) => any) {
+AssertionTest.prototype.execute = function execute(this : TAssertionTestBuilderImpl, _execute : TExecuteTask) {
 	this._execute = _execute;
 	return this;
 };
@@ -276,8 +286,8 @@ AssertionTest.prototype.execute = function execute(_execute : (request ?: any) =
 * @returns {AssertionTest} this
 * @memberof async-patterns.testing.AssertionTest#
 */
-AssertionTest.prototype.verify = function verify(...args) {
-	this._verify = args;
+AssertionTest.prototype.verify = function verify(this : TAssertionTestBuilderImpl, ...args: TVerifyTask[]) {
+	this._verify = InOrder(...args);
 	return this;
 };
 
@@ -292,7 +302,7 @@ AssertionTest.prototype.verify = function verify(...args) {
 * @returns {AssertionTest} this
 * @memberof async-patterns.testing.AssertionTest#
 */
-AssertionTest.prototype.teardown = function teardown(_teardown) {
+AssertionTest.prototype.teardown = function teardown(this : TAssertionTestBuilderImpl, _teardown : TTeardownTask) {
 	this._teardown = _teardown;
 	return this;
 };
@@ -305,7 +315,7 @@ AssertionTest.prototype.teardown = function teardown(_teardown) {
 * @returns {function} callback-expecting test function
 * @memberof async-patterns.testing.AssertionTest#
 */
-AssertionTest.prototype.build = function build(this : any) {
+AssertionTest.prototype.build = function build(this : TAssertionTestBuilderImpl) : TAssertionTest {
 	let {
 		_setup,
 		_prepare,
@@ -316,10 +326,11 @@ AssertionTest.prototype.build = function build(this : any) {
 	} = this;
 
 	_execute = CatchError(_execute);
-	_verify = InOrder(..._verify);
 
-	let test : AsyncFunction = async function () {
-		const test : { setup ?: any, request ?: any, result ?: any, error ?: any } = {};
+	let test : TAssertionTest = async function () {
+		const test : { label : string, setup ?: any, request ?: any, result ?: any, error ?: any } = {
+			label : _description
+		};
 
 		test.setup = await _setup();
 		test.request = await _prepare(test.setup);
@@ -329,16 +340,20 @@ AssertionTest.prototype.build = function build(this : any) {
 
 		try {
 			await _verify(test);
+		} catch (err) {
+			throw err;
 		} finally {
 			await _teardown(test);
 		}
-	};
-	test = TraceError(test);
+	} as TAssertionTest;
+	test = TraceError(test) as TAssertionTest;
 
+	// this wrapper is to enforce a function.length of 0,
+	// without changing the underlying Promisify implementation
+	let wrapper = (() => test()) as TAssertionTest;
+	wrapper.label = _description;
 
-	test.label = _description;
-
-	return test;
+	return wrapper;
 };
 
 /**
@@ -361,4 +376,34 @@ AssertionTest.VerifyErrorWasThrown = Assert(
 	'AssertionTest.VerifyErrorWasThrown: error was not thrown'
 );
 
-export = AssertionTest;
+AssertionTest.LogError = If(
+	(context) => context.error != null,
+	Logging(
+		(context) => `(${context.label}) test error:`,
+		(context) => context.error
+	)
+);
+
+AssertionTest.LogSetup = If(
+	Logging(
+		(context) => `(${context.label}) test setup:`,
+		(context) => context.setup
+	)
+);
+
+AssertionTest.LogRequest = If(
+	Logging(
+		(context) => `(${context.label}) test request:`,
+		(context) => context.request
+	)
+);
+
+AssertionTest.LogResult = If(
+	Logging(
+		(context) => `(${context.label}) test result:`,
+		(context) => context.result
+	)
+);
+
+
+export default AssertionTest;

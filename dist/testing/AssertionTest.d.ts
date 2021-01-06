@@ -1,33 +1,35 @@
-interface AsyncFunction {
-    (...args: any[]): Promise<any>;
-    label?: string;
-}
-interface SetupTask {
+export declare type TAssertionTest = {
+    (): Promise<any>;
+    label: string;
+};
+export declare type TSetupTask = {
     (): any | Promise<any>;
-}
-interface PrepareTask {
+};
+export declare type TPrepareTask = {
     (setup?: any): any | Promise<any>;
-}
-interface ExecuteTask {
+};
+export declare type TExecuteTask = {
     (request?: any): any | Promise<any>;
-}
-interface VerifyTask {
+};
+export declare type TVerifyTask = {
     (test: {
+        label: string;
         setup?: any;
         request?: any;
         error?: any;
         result?: any;
     }): any | Promise<any>;
-}
-interface TeardownTask {
+};
+export declare type TTeardownTask = {
     (test: {
+        label: string;
         setup?: any;
         request?: any;
         error?: any;
         result?: any;
     }): any | Promise<any>;
-}
-interface IAssertionTest {
+};
+export declare type TAssertionTestBuilder = {
     /**
     *
     * `AssertionTest#describe` lets you set a description for a test case.
@@ -38,7 +40,7 @@ interface IAssertionTest {
     * @returns {AssertionTest} this
     * @memberof async-patterns.testing.AssertionTest#
     */
-    describe(description: string): IAssertionTest;
+    describe(description: string): TAssertionTestBuilder;
     /**
     *
     * `AssertionTest#setup` gives you a hook to build test fixtures before execution.
@@ -51,7 +53,7 @@ interface IAssertionTest {
     * @returns {AssertionTest} this
     * @memberof async-patterns.testing.AssertionTest#
     */
-    setup(setupTask: SetupTask): IAssertionTest;
+    setup(setupTask: TSetupTask): TAssertionTestBuilder;
     /**
     *
     * `AssertionTest#prepare` gives you a hook to prepare the request that the test uses to execute.
@@ -63,7 +65,7 @@ interface IAssertionTest {
     * @returns {AssertionTest} this
     * @memberof async-patterns.testing.AssertionTest#
     */
-    prepare(prepareTask: PrepareTask): IAssertionTest;
+    prepare(prepareTask: TPrepareTask): TAssertionTestBuilder;
     /**
     *
     * `AssertionTest#execute` lets you specify the task that is executed in a test.
@@ -74,7 +76,7 @@ interface IAssertionTest {
     * @returns {AssertionTest} this
     * @memberof async-patterns.testing.AssertionTest#
     */
-    execute(executeTask: ExecuteTask): IAssertionTest;
+    execute(executeTask: TExecuteTask): TAssertionTestBuilder;
     /**
     *
     * `AssertionTest#verify` lets you specify any number of tasks to verify the test results.
@@ -86,7 +88,7 @@ interface IAssertionTest {
     * @returns {AssertionTest} this
     * @memberof async-patterns.testing.AssertionTest#
     */
-    verify(...verifyTasks: VerifyTask[]): IAssertionTest;
+    verify(...verifyTasks: TVerifyTask[]): TAssertionTestBuilder;
     /**
     *
     * `AssertionTest#teardown` gives you a hook to tear down the test fixtures after execution.
@@ -98,7 +100,7 @@ interface IAssertionTest {
     * @returns {AssertionTest} this
     * @memberof async-patterns.testing.AssertionTest#
     */
-    teardown(teardownTask: TeardownTask): IAssertionTest;
+    teardown(teardownTask: TTeardownTask): TAssertionTestBuilder;
     /**
     *
     * Builds the test case function.
@@ -107,8 +109,16 @@ interface IAssertionTest {
     * @returns {function} callback-expecting test function
     * @memberof async-patterns.testing.AssertionTest#
     */
-    build(): AsyncFunction;
-}
+    build(): TAssertionTest;
+};
+declare type TAssertionTestBuilderImpl = TAssertionTestBuilder & {
+    _description: string;
+    _setup: TSetupTask;
+    _prepare: TPrepareTask;
+    _execute: TExecuteTask;
+    _verify: TVerifyTask;
+    _teardown: TTeardownTask;
+};
 /**
 *
 * ```javascript
@@ -160,9 +170,13 @@ interface IAssertionTest {
 * @constructor
 * @memberof async-patterns.testing
 */
-declare function AssertionTest(this: IAssertionTest | null | undefined | void): IAssertionTest;
+declare function AssertionTest(this: TAssertionTestBuilderImpl | null | undefined | void): TAssertionTestBuilder;
 declare namespace AssertionTest {
     var VerifyErrorWasNotThrown: import("../PassThrough.types").PassThroughTask;
     var VerifyErrorWasThrown: import("../PassThrough.types").PassThroughTask;
+    var LogError: import("../types/AsyncTask").default;
+    var LogSetup: import("../types/AsyncTask").default;
+    var LogRequest: import("../types/AsyncTask").default;
+    var LogResult: import("../types/AsyncTask").default;
 }
-export = AssertionTest;
+export default AssertionTest;

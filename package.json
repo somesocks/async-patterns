@@ -1,6 +1,6 @@
 {
   "name": "async-patterns",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "A a collection of design patterns for async/await or promise-driven async code",
   "main": "./index.js",
   "scripts": {},
@@ -30,7 +30,7 @@
     "jsdoc-to-markdown": "^4.0.1",
     "mocha": "5.1.1",
     "ping": "^0.2.2",
-    "typescript": "4.0.3",
-    "vet": "2.5.1"
+    "typescript": "^4.0.3",
+    "vet": "^2.5.1"
   }
 }

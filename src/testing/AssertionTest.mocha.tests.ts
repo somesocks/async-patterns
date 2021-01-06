@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 
 import Assert from '../Assert';
-import Callbackify from '../Callbackify';
+// import Callbackify from '../Callbackify';
 import Promisify from '../Promisify';
 import Logging from '../Logging';
 import InOrder from '../InOrder';
@@ -138,18 +138,59 @@ const PingTest = AssertionTest()
 	)
 	.build();
 
+const LogErrorTest = AssertionTest()
+	.describe('AssertionTest.LogError works')
+	.execute(() => { throw new Error('test error') })
+	.verify(
+		AssertionTest.LogError
+	)
+	.build();
+
+const LogSetupTest = AssertionTest()
+	.describe('AssertionTest.LogSetup works')
+	.setup(() => 1)
+	.prepare((setup) => setup + 1)
+	.execute((request) => request + 1)
+	.verify(
+		AssertionTest.LogSetup
+	)
+	.build();
+
+const LogRequestTest = AssertionTest()
+	.describe('AssertionTest.LogRequestTest works')
+	.setup(() => 1)
+	.prepare((setup) => setup + 1)
+	.execute((request) => request + 1)
+	.verify(
+		AssertionTest.LogRequest
+	)
+	.build();
+
+const LogResultTest = AssertionTest()
+	.describe('AssertionTest.LogResultTest works')
+	.setup(() => 1)
+	.prepare((setup) => setup + 1)
+	.execute((request) => request + 1)
+	.verify(
+		AssertionTest.LogResult
+	)
+	.build();
 
 const TESTS = [
 	EmptyTest,
 	SetupTest,
 	SampleTest,
 	PingTest,
+	LogErrorTest,
+	LogSetupTest,
+	LogRequestTest,
+	LogResultTest,
 ];
 
 describe('AssertionTest', () => {
 
 	TESTS.forEach(
-		(test, i) => it(test.label || `test ${i}`, Callbackify(test))
+		(test, i) => it(test.label, () => test())
 	);
 
 });
