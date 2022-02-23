@@ -44,9 +44,9 @@ var Callbackify_1 = __importDefault(require("./Callbackify"));
 var InSeries_1 = __importDefault(require("./InSeries"));
 var PassThrough_1 = __importDefault(require("./PassThrough"));
 describe('PassThrough', function () {
-    it('PassThrough 1', Callbackify_1.default(InSeries_1.default(function () { return [1, 2, 3]; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    it('PassThrough 1', (0, Callbackify_1.default)((0, InSeries_1.default)(function () { return [1, 2, 3]; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
         return [2 /*return*/, val];
-    }); }); }, PassThrough_1.default, Assert_1.default(function (_a) {
+    }); }); }, PassThrough_1.default, (0, Assert_1.default)(function (_a) {
         var a = _a[0], b = _a[1], c = _a[2];
         return (a === 1 && b === 2 && c === 3);
     }))));

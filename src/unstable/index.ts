@@ -1,7 +1,6 @@
-/** @namespace async-patterns.unstable */
+/**
+ * A namespace.
+ * @namespace async-patterns.unstable
+ */
 
-import TraceError from './TraceError';
-
-export {
-	TraceError,
-}
+export default null;

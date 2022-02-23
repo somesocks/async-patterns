@@ -1,8 +1,7 @@
 {
   "name": "async-patterns",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "A a collection of design patterns for async/await or promise-driven async code",
-  "main": "./index.js",
   "scripts": {},
   "repository": {
     "type": "git",
@@ -22,15 +21,14 @@
     "callback-patterns": "2.5.0"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.7",
-    "@typescript-eslint/eslint-plugin": "4.1.0",
-    "@typescript-eslint/parser": "4.1.0",
-    "chai": "^4.0.2",
-    "eslint": "7.9.0",
-    "jsdoc-to-markdown": "^4.0.1",
-    "mocha": "5.1.1",
+    "@types/mocha": "9.1.0",
+    "@typescript-eslint/eslint-plugin": "5.12.1",
+    "@typescript-eslint/parser": "5.12.1",
+    "eslint": "8.9.0",
+    "jsdoc-to-markdown": "7.1.1",
+    "mocha": "9.2.1",
     "ping": "^0.2.2",
-    "typescript": "^4.0.3",
-    "vet": "^2.5.1"
+    "typescript": "^4.5.5",
+    "vet": "4.3.1"
   }
 }

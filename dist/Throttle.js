@@ -15,8 +15,8 @@ var Throttle_1 = __importDefault(require("callback-patterns/Throttle"));
 * @memberof async-patterns
 */
 function Throttle(_1, _2) {
-    var task = Callbackify_1.default(_1 || PassThrough_1.default);
+    var task = (0, Callbackify_1.default)(_1 || PassThrough_1.default);
     var limit = _2 || 1;
-    return Promisify_1.default(Throttle_1.default(task, limit));
+    return (0, Promisify_1.default)((0, Throttle_1.default)(task, limit));
 }
 module.exports = Throttle;

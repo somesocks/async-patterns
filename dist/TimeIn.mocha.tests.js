@@ -9,11 +9,11 @@ var Delay_1 = __importDefault(require("./Delay"));
 var TimeIn_1 = __importDefault(require("./TimeIn"));
 describe('TimeIn', function () {
     it('Function.length should be at least 1', function () {
-        if (TimeIn_1.default().length < 1) {
+        if ((0, TimeIn_1.default)().length < 1) {
             throw new Error();
         }
     });
-    it('TimeIn works ', InSeries_1.default(function (next) { return next(null, 1, 2, 3); }, TimeIn_1.default(Delay_1.default(200), 1000), Assert_1.default(function (a, b, c) { return (a === 1 && b === 2 && c === 3); })));
+    it('TimeIn works ', (0, InSeries_1.default)(function (next) { return next(null, 1, 2, 3); }, (0, TimeIn_1.default)((0, Delay_1.default)(200), 1000), (0, Assert_1.default)(function (a, b, c) { return (a === 1 && b === 2 && c === 3); })));
     var LONG_ARGS = [
         null,
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f',
@@ -81,5 +81,5 @@ describe('TimeIn', function () {
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f',
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f',
     ];
-    it('TimeIn performance', InSeries_1.default(function (next) { return next.apply(null, LONG_ARGS); }, TimeIn_1.default()));
+    it('TimeIn performance', (0, InSeries_1.default)(function (next) { return next.apply(null, LONG_ARGS); }, (0, TimeIn_1.default)()));
 });

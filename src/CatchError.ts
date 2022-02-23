@@ -26,7 +26,7 @@ const CatchError = function CatchError<T extends Task>(task : T) : (...args : Ac
 
 		try {
 			val.result = await task2(request);
-		} catch (e) {
+		} catch (e : any) {
 			val.error = e;
 		}
 

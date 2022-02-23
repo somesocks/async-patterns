@@ -9,11 +9,11 @@ var Callbackify_1 = __importDefault(require("./Callbackify"));
 var InSeries_1 = __importDefault(require("./InSeries"));
 var Delay_1 = __importDefault(require("./Delay"));
 describe('Delay', function () {
-    it('Delay 1', Callbackify_1.default(InSeries_1.default(function () { return [1, 2, 3]; }, Delay_1.default(100), Assert_1.default(function (_a) {
+    it('Delay 1', (0, Callbackify_1.default)((0, InSeries_1.default)(function () { return [1, 2, 3]; }, (0, Delay_1.default)(100), (0, Assert_1.default)(function (_a) {
         var a = _a[0], b = _a[1], c = _a[2];
         return (a === 1 && b === 2 && c === 3);
     }))));
-    it('Delay 2', Callbackify_1.default(InSeries_1.default(function () { return [1, 2, 3]; }, Delay_1.default(), Assert_1.default(function (_a) {
+    it('Delay 2', (0, Callbackify_1.default)((0, InSeries_1.default)(function () { return [1, 2, 3]; }, (0, Delay_1.default)(), (0, Assert_1.default)(function (_a) {
         var a = _a[0], b = _a[1], c = _a[2];
         return (a === 1 && b === 2 && c === 3);
     }))));

@@ -16,6 +16,6 @@ function Logging() {
     for (var _i = 0; _i < arguments.length; _i++) {
         args[_i] = arguments[_i];
     }
-    return Promisify_1.default(Logging_1.default.apply(this, args));
+    return (0, Promisify_1.default)(Logging_1.default.apply(this, args));
 }
 module.exports = Logging;

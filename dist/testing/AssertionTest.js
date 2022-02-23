@@ -219,7 +219,7 @@ AssertionTest.prototype.teardown = function teardown(_teardown) {
 */
 AssertionTest.prototype.build = function build() {
     var _a = this, _setup = _a._setup, _prepare = _a._prepare, _execute = _a._execute, _verify = _a._verify, _teardown = _a._teardown, _description = _a._description;
-    _execute = CatchError_1.default(_execute);
+    _execute = (0, CatchError_1.default)(_execute);
     var test = function () {
         return __awaiter(this, void 0, void 0, function () {
             var test, _a, _b, _c, result, error, err_1;
@@ -261,7 +261,7 @@ AssertionTest.prototype.build = function build() {
             });
         });
     };
-    test = TraceError_1.default(test);
+    test = (0, TraceError_1.default)(test);
     // this wrapper is to enforce a function.length of 0,
     // without changing the underlying Promisify implementation
     var wrapper = (function () { return test(); });
@@ -273,15 +273,15 @@ AssertionTest.prototype.build = function build() {
 * @function VerifyErrorWasNotThrown
 * @memberof async-patterns.testing.AssertionTest
 */
-AssertionTest.VerifyErrorWasNotThrown = Assert_1.default(function (context) { return context.error == null; }, function (context) { return context.error; });
+AssertionTest.VerifyErrorWasNotThrown = (0, Assert_1.default)(function (context) { return context.error == null; }, function (context) { return context.error; });
 /**
 * verifier function to make sure test DID throw an error
 * @function VerifyErrorWasNotThrown
 * @memberof async-patterns.testing.AssertionTest
 */
-AssertionTest.VerifyErrorWasThrown = Assert_1.default(function (context) { return context.error != null; }, 'AssertionTest.VerifyErrorWasThrown: error was not thrown');
-AssertionTest.LogError = If_1.default(function (context) { return context.error != null; }, Logging_1.default(function (context) { return "(" + context.label + ") test error:"; }, function (context) { return context.error; }));
-AssertionTest.LogSetup = If_1.default(Logging_1.default(function (context) { return "(" + context.label + ") test setup:"; }, function (context) { return context.setup; }));
-AssertionTest.LogRequest = If_1.default(Logging_1.default(function (context) { return "(" + context.label + ") test request:"; }, function (context) { return context.request; }));
-AssertionTest.LogResult = If_1.default(Logging_1.default(function (context) { return "(" + context.label + ") test result:"; }, function (context) { return context.result; }));
+AssertionTest.VerifyErrorWasThrown = (0, Assert_1.default)(function (context) { return context.error != null; }, 'AssertionTest.VerifyErrorWasThrown: error was not thrown');
+AssertionTest.LogError = (0, If_1.default)(function (context) { return context.error != null; }, (0, Logging_1.default)(function (context) { return "(".concat(context.label, ") test error:"); }, function (context) { return context.error; }));
+AssertionTest.LogSetup = (0, If_1.default)((0, Logging_1.default)(function (context) { return "(".concat(context.label, ") test setup:"); }, function (context) { return context.setup; }));
+AssertionTest.LogRequest = (0, If_1.default)((0, Logging_1.default)(function (context) { return "(".concat(context.label, ") test request:"); }, function (context) { return context.request; }));
+AssertionTest.LogResult = (0, If_1.default)((0, Logging_1.default)(function (context) { return "(".concat(context.label, ") test result:"); }, function (context) { return context.result; }));
 exports.default = AssertionTest;

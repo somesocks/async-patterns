@@ -7,6 +7,8 @@
 <a name="async-patterns"></a>
 
 ## async-patterns : <code>object</code>
+A namespace.
+
 **Kind**: global namespace  
 
 * [async-patterns](#async-patterns) : <code>object</code>
@@ -292,6 +294,8 @@ PassThrough does nothing, just passes the request through as the result
 <a name="async-patterns.testing"></a>
 
 ### async-patterns.testing : <code>object</code>
+A namespace.
+
 **Kind**: static namespace of [<code>async-patterns</code>](#async-patterns)  
 
 * [.testing](#async-patterns.testing) : <code>object</code>
@@ -506,6 +510,8 @@ verifier function to make sure test DID throw an error
 <a name="async-patterns.unstable"></a>
 
 ### async-patterns.unstable : <code>object</code>
+A namespace.
+
 **Kind**: static namespace of [<code>async-patterns</code>](#async-patterns)  
 
 * * *

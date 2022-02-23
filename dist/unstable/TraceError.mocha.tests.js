@@ -11,19 +11,19 @@ var Logging_1 = __importDefault(require("../Logging"));
 var TraceError_1 = __importDefault(require("./TraceError"));
 describe('TraceError tests', function () {
     it('Function.length should be at least 1', function () {
-        if (TraceError_1.default().length < 1) {
+        if ((0, TraceError_1.default)().length < 1) {
             throw new Error();
         }
-        if (TraceError_1.default(function () { }).length < 1) {
+        if ((0, TraceError_1.default)(function () { }).length < 1) {
             throw new Error();
         }
     });
-    it('test with 0 handlers', Callbackify_1.default(TraceError_1.default()));
-    it('test with null return', Callbackify_1.default(TraceError_1.default(function () { return null; })));
+    it('test with 0 handlers', (0, Callbackify_1.default)((0, TraceError_1.default)()));
+    it('test with null return', (0, Callbackify_1.default)((0, TraceError_1.default)(function () { return null; })));
     it('passes errors', function (done) {
-        Callbackify_1.default(TraceError_1.default(function () { throw new Error('error'); }))(function (err, res) { return done(err != null ? null : err); });
+        (0, Callbackify_1.default)((0, TraceError_1.default)(function () { throw new Error('error'); }))(function (err, res) { return done(err != null ? null : err); });
     });
-    it('deep error stack works', Callbackify_1.default(InSeries_1.default(CatchError_1.default(TraceError_1.default(InSeries_1.default(InSeries_1.default(Delay_1.default(500), function () { throw new Error('error'); })))), Logging_1.default('Error Stack\n', function (_a) {
+    it('deep error stack works', (0, Callbackify_1.default)((0, InSeries_1.default)((0, CatchError_1.default)((0, TraceError_1.default)((0, InSeries_1.default)((0, InSeries_1.default)((0, Delay_1.default)(500), function () { throw new Error('error'); })))), (0, Logging_1.default)('Error Stack\n', function (_a) {
         var error = _a.error;
         return error;
     }))));

@@ -27,12 +27,12 @@ var DEFAULT_KEY_FUNCTION = function () {
 * @memberof async-patterns
 */
 function Memoize(task, keyFunction, cache) {
-    return Promisify_1.default(Memoize_1.default(Callbackify_1.default(task), keyFunction || DEFAULT_KEY_FUNCTION, cache));
+    return (0, Promisify_1.default)((0, Memoize_1.default)((0, Callbackify_1.default)(task), keyFunction || DEFAULT_KEY_FUNCTION, cache));
 }
 Memoize.ObjectCache = Memoize_1.default.ObjectCache;
 Memoize.LRUCache = Memoize_1.default.LRUCache;
 function SWRMemoize(task, options) {
-    return Promisify_1.default(Memoize_1.default.SWR(Callbackify_1.default(task), options));
+    return (0, Promisify_1.default)(Memoize_1.default.SWR((0, Callbackify_1.default)(task), options));
 }
 SWRMemoize.ObjectCache = Memoize_1.default.ObjectCache;
 SWRMemoize.LRUCache = Memoize_1.default.LRUCache;

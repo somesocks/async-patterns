@@ -1,7 +1,6 @@
-/** @namespace async-patterns.testing */
+/**
+ * A namespace.
+ * @namespace async-patterns.testing
+ */
 
-import AssertionTest from './AssertionTest';
-
-export {
-	AssertionTest,
-};
+export default null;

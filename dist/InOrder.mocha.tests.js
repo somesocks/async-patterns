@@ -45,20 +45,20 @@ var InSeries_1 = __importDefault(require("./InSeries"));
 // import InOrder from './InOrder';
 var InOrder_1 = __importDefault(require("./InOrder"));
 var PassThrough_1 = __importDefault(require("./PassThrough"));
-var t1 = InOrder_1.default(function (val) { return val + 1; }, 
+var t1 = (0, InOrder_1.default)(function (val) { return val + 1; }, 
 // (val : string) => val + 1,
 function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
     return [2 /*return*/, val + 1];
 }); }); });
-var t2 = InOrder_1.default(function (val) { return val.foo + 1; }, function (val) { return val.bar + 1; }, 
+var t2 = (0, InOrder_1.default)(function (val) { return val.foo + 1; }, function (val) { return val.bar + 1; }, 
 // (val : string) => val + 1,
 function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
     return [2 /*return*/, val + 1];
 }); }); });
-var t3 = InOrder_1.default(function (val) { return Promise.resolve(val); }, function (val) { return Promise.resolve(val); });
+var t3 = (0, InOrder_1.default)(function (val) { return Promise.resolve(val); }, function (val) { return Promise.resolve(val); });
 var t4 = function (action) { return Promise.resolve(action); };
-var t5 = InOrder_1.default(t4, t4);
-var t6 = InOrder_1.default(t5, t5);
+var t5 = (0, InOrder_1.default)(t4, t4);
+var t6 = (0, InOrder_1.default)(t5, t5);
 var a7 = [
     function (val) { return val.foo + 1; },
     function (val) { return val.bar + 1; },
@@ -66,28 +66,28 @@ var a7 = [
 var t7 = InOrder_1.default.apply(void 0, a7);
 describe('InOrder', function () {
     it('Long Chain Performance', function (done) {
-        var chain = Callbackify_1.default(InOrder_1.default.apply(void 0, Array(100000).fill(PassThrough_1.default)));
+        var chain = (0, Callbackify_1.default)(InOrder_1.default.apply(void 0, Array(100000).fill(PassThrough_1.default)));
         chain(done, [1, 2, 3]);
     });
     it('test with 0 handlers', function (done) {
-        Callbackify_1.default(InOrder_1.default())(done);
+        (0, Callbackify_1.default)((0, InOrder_1.default)())(done);
     });
     it('test with null return', function (done) {
-        Callbackify_1.default(InOrder_1.default(function () { }, function () { }))(done);
+        (0, Callbackify_1.default)((0, InOrder_1.default)(function () { }, function () { }))(done);
     });
     it('catches errors', function (done) {
-        var task = Callbackify_1.default(InOrder_1.default(function () { }, function () { throw new Error('error'); }));
+        var task = (0, Callbackify_1.default)((0, InOrder_1.default)(function () { }, function () { throw new Error('error'); }));
         task(function (err, res) { return done(err != null ? null : err); });
     });
     it('catches errors 2', function (done) {
-        var task = Callbackify_1.default(InOrder_1.default(function () { }, function () { return Promise.reject('error'); }));
+        var task = (0, Callbackify_1.default)((0, InOrder_1.default)(function () { }, function () { return Promise.reject('error'); }));
         task(function (err, res) { return done(err != null ? null : err); });
     });
-    it('works 1', Callbackify_1.default(InSeries_1.default(function () { return 1; }, t1, InOrder_1.default(function (val) { return val + 1; }, function (val) { return val + 1; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    it('works 1', (0, Callbackify_1.default)((0, InSeries_1.default)(function () { return 1; }, t1, (0, InOrder_1.default)(function (val) { return val + 1; }, function (val) { return val + 1; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
         return [2 /*return*/, val + 1];
-    }); }); }), Assert_1.default(function (val) { return val === 1; }))));
-    it('works 2', Callbackify_1.default(InSeries_1.default(function () { return ({ a: 1 }); }, InOrder_1.default(function (val) { val.a++; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    }); }); }), (0, Assert_1.default)(function (val) { return val === 1; }))));
+    it('works 2', (0, Callbackify_1.default)((0, InSeries_1.default)(function () { return ({ a: 1 }); }, (0, InOrder_1.default)(function (val) { val.a++; }, function (val) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
         val.a++;
         return [2 /*return*/];
-    }); }); }, function (val) { val.a++; }), Assert_1.default(function (val) { return val && val.a === 4; }))));
+    }); }); }, function (val) { val.a++; }), (0, Assert_1.default)(function (val) { return val && val.a === 4; }))));
 });

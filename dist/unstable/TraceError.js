@@ -17,6 +17,6 @@ var TraceError_1 = __importDefault(require("callback-patterns/unstable/TraceErro
 * @memberof async-patterns.unstable
 */
 function TraceError(_1) {
-    return Promisify_1.default(TraceError_1.default(Callbackify_1.default(_1)));
+    return (0, Promisify_1.default)((0, TraceError_1.default)((0, Callbackify_1.default)(_1)));
 }
 module.exports = TraceError;

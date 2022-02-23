@@ -7,7 +7,7 @@ var Promisify_1 = __importDefault(require("./Promisify"));
 describe('Promisify', function () {
     it('Promisify works', function (done) {
         new Promise(function (resolve) { return resolve(); })
-            .then(Promisify_1.default(function (next) { return next(); }))
+            .then((0, Promisify_1.default)(function (next) { return next(); }))
             .then(function () { return done(); });
     });
     it('Promisify catches callback errors', function (done) {
@@ -20,7 +20,7 @@ describe('Promisify', function () {
             }
         };
         new Promise(function (resolve) { return resolve(); })
-            .then(Promisify_1.default(function (next) { return next(new Error('throw error')); }))
+            .then((0, Promisify_1.default)(function (next) { return next(new Error('throw error')); }))
             .catch(onCatch);
     });
     it('Promisify catches thrown errors', function (done) {
@@ -33,7 +33,7 @@ describe('Promisify', function () {
             }
         };
         new Promise(function (resolve) { return resolve(); })
-            .then(Promisify_1.default(function (next) { throw new Error('throw error'); }))
+            .then((0, Promisify_1.default)(function (next) { throw new Error('throw error'); }))
             .catch(onCatch);
     });
 });

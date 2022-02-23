@@ -29,8 +29,8 @@ var TimeIn_1 = __importDefault(require("callback-patterns/TimeIn"));
 * @memberof async-patterns
 */
 function TimeIn(_1, _2) {
-    var task = Callbackify_1.default(_1 || PassThrough_1.default);
+    var task = (0, Callbackify_1.default)(_1 || PassThrough_1.default);
     var ms = _2 || 1000;
-    return Promisify_1.default(TimeIn_1.default(task, ms));
+    return (0, Promisify_1.default)((0, TimeIn_1.default)(task, ms));
 }
 module.exports = TimeIn;

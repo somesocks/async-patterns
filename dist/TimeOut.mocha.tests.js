@@ -12,12 +12,12 @@ var Delay_1 = __importDefault(require("./Delay"));
 var TimeOut_1 = __importDefault(require("./TimeOut"));
 describe('TimeOut', function () {
     it('Function.length should be at least 1', function () {
-        if (TimeOut_1.default().length < 1) {
+        if ((0, TimeOut_1.default)().length < 1) {
             throw new Error();
         }
     });
-    it('TimeOut works when not triggered', InSeries_1.default(function (next) { return next(null, 1, 2, 3); }, TimeOut_1.default(Delay_1.default(200), 1000), Assert_1.default(function (a, b, c) { return (a === 1 && b === 2 && c === 3); })));
-    it('TimeOut works when triggered', InSeries_1.default(function (next) { return next(null, 1, 2, 3); }, CatchError_1.default(TimeOut_1.default(Delay_1.default(2000), 1000)), Logging_1.default(function (args) { return "" + args; }), Assert_1.default(function (err) { return (err != null); })));
+    it('TimeOut works when not triggered', (0, InSeries_1.default)(function (next) { return next(null, 1, 2, 3); }, (0, TimeOut_1.default)((0, Delay_1.default)(200), 1000), (0, Assert_1.default)(function (a, b, c) { return (a === 1 && b === 2 && c === 3); })));
+    it('TimeOut works when triggered', (0, InSeries_1.default)(function (next) { return next(null, 1, 2, 3); }, (0, CatchError_1.default)((0, TimeOut_1.default)((0, Delay_1.default)(2000), 1000)), (0, Logging_1.default)(function (args) { return "".concat(args); }), (0, Assert_1.default)(function (err) { return (err != null); })));
     var LONG_ARGS = [
         null,
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f',
@@ -85,5 +85,5 @@ describe('TimeOut', function () {
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f',
         0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f',
     ];
-    it('TimeOut performance', InSeries_1.default(function (next) { return next.apply(null, LONG_ARGS); }, TimeOut_1.default()));
+    it('TimeOut performance', (0, InSeries_1.default)(function (next) { return next.apply(null, LONG_ARGS); }, (0, TimeOut_1.default)()));
 });

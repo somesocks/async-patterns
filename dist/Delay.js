@@ -25,6 +25,6 @@ var DEFAULT_DELAY = 1000;
 * @memberof async-patterns
 */
 function Delay(_1) {
-    return Promisify_1.default(Delay_1.default(_1 || DEFAULT_DELAY));
+    return (0, Promisify_1.default)((0, Delay_1.default)(_1 || DEFAULT_DELAY));
 }
 module.exports = Delay;

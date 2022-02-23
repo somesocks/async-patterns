@@ -58,7 +58,7 @@ var Assert_1 = __importDefault(require("./Assert"));
 var ParallelMap = function (task) {
     var _this = this;
     var task2 = task || PassThrough_1.default;
-    var wrapper = InSeries_1.default(function (val) { return val || []; }, Assert_1.default(function (val) { return Array.isArray(val); }), function (request) { return __awaiter(_this, void 0, void 0, function () {
+    var wrapper = (0, InSeries_1.default)(function (val) { return val || []; }, (0, Assert_1.default)(function (val) { return Array.isArray(val); }), function (request) { return __awaiter(_this, void 0, void 0, function () {
         var tasks, results;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -70,7 +70,7 @@ var ParallelMap = function (task) {
                     return [2 /*return*/, results];
             }
         });
-    }); }, Assert_1.default(function (val) { return Array.isArray(val); }));
+    }); }, (0, Assert_1.default)(function (val) { return Array.isArray(val); }));
     return wrapper;
 };
 module.exports = ParallelMap;

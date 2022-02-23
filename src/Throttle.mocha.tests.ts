@@ -1,5 +1,9 @@
 /* eslint-env mocha, node */
 
+import isArray from 'vet/arrays/isArray';
+import isAllOf from 'vet/isAllOf';
+import isShape from 'vet/objects/isShape';
+
 import Assert from './Assert';
 import CatchError from './CatchError';
 import Callbackify from './Callbackify';
@@ -15,7 +19,21 @@ import ParallelMap from './ParallelMap';
 import Retry from './Retry';
 import Throttle from './Throttle';
 
-import { assert } from 'chai';
+const _isRes = isAllOf(
+	isArray,
+	isShape({
+		length: 8,
+		0: 0,
+		1: 1,
+		2: 2,
+		3: 3,
+		4: 4,
+		5: 5,
+		6: 6,
+		7: 7,
+	})
+);
+const isRes : typeof _isRes = _isRes;
 
 describe('Throttle', () => {
 	it('test with 0 handlers',
@@ -43,17 +61,17 @@ describe('Throttle', () => {
 		Callbackify(
 			InSeries(
 				InParallel(
+					() => task(0),
 					() => task(1),
 					() => task(2),
 					() => task(3),
 					() => task(4),
 					() => task(5),
 					() => task(6),
-					() => task(7),
-					() => task(8)
+					() => task(7)
 				),
 				() => {
-					assert.deepEqual(arr, [ 1, 2, 3, 4, 5, 6, 7, 8 ]);
+					isRes.assert(arr);
 				}
 			)
 		)(done);

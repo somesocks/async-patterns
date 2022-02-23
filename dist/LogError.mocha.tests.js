@@ -9,11 +9,11 @@ var Callbackify_1 = __importDefault(require("./Callbackify"));
 var InSeries_1 = __importDefault(require("./InSeries"));
 describe('LogError', function () {
     it('LogError 1', function (done) {
-        var task = Callbackify_1.default(InSeries_1.default(LogError_1.default(function () { return 1; }), function () { }));
+        var task = (0, Callbackify_1.default)((0, InSeries_1.default)((0, LogError_1.default)(function () { return 1; }), function () { }));
         task(done);
     });
     it('LogError 2', function (done) {
-        var task = Callbackify_1.default(InSeries_1.default(CatchError_1.default(LogError_1.default(function () { throw new Error('error'); }))));
+        var task = (0, Callbackify_1.default)((0, InSeries_1.default)((0, CatchError_1.default)((0, LogError_1.default)(function () { throw new Error('error'); }))));
         task(done);
     });
 });

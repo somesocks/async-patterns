@@ -31,8 +31,8 @@ var TimeOut_1 = __importDefault(require("callback-patterns/TimeOut"));
 * @memberof async-patterns
 */
 function TimeOut(_1, _2) {
-    var task = Callbackify_1.default(_1 || PassThrough_1.default);
+    var task = (0, Callbackify_1.default)(_1 || PassThrough_1.default);
     var ms = _2 || 1000;
-    return Promisify_1.default(TimeOut_1.default(task, ms));
+    return (0, Promisify_1.default)((0, TimeOut_1.default)(task, ms));
 }
 module.exports = TimeOut;

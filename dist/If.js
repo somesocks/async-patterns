@@ -32,9 +32,9 @@ var PassThrough_1 = __importDefault(require("./PassThrough"));
 * @memberof async-patterns
 */
 function If(_1, _2, _3) {
-    var conditionTask = Callbackify_1.default(_1 != null ? _1 : PassThrough_1.default);
-    var thenTask = Callbackify_1.default(_2 != null ? _2 : PassThrough_1.default);
-    var elseTask = Callbackify_1.default(_3 != null ? _3 : PassThrough_1.default);
-    return Promisify_1.default(If_1.default(conditionTask, thenTask, elseTask));
+    var conditionTask = (0, Callbackify_1.default)(_1 != null ? _1 : PassThrough_1.default);
+    var thenTask = (0, Callbackify_1.default)(_2 != null ? _2 : PassThrough_1.default);
+    var elseTask = (0, Callbackify_1.default)(_3 != null ? _3 : PassThrough_1.default);
+    return (0, Promisify_1.default)((0, If_1.default)(conditionTask, thenTask, elseTask));
 }
 module.exports = If;

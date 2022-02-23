@@ -86,6 +86,11 @@ _buildExtras () {
 	cp ./package.json $BUILD_DIR/
 	echo '[INFO] packing `LICENSE`'
 	cp ./LICENSE $BUILD_DIR/
+
+	echo '[INFO] stripping index files'	
+	find $BUILD_DIR/ -type f -name index.js | xargs rm
+	find $BUILD_DIR/ -type f -name index.d.ts | xargs rm
+
 }
 
 _writeBuildToDist () {
