@@ -1,4 +1,7 @@
-import { Task, Accepts, Returns, PromiseResult } from './types';
+import Task from './types/Task';
+import PromiseResult from './types/PromiseResult';
+import Accepts from './types/Accepts';
+import Returns from './types/Returns';
 /**
 * Wraps a task and attempts to retry if it throws an error, with an exponential backoff.
 * @param {taskFunction} task - the task to wrap.

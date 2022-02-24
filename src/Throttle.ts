@@ -1,5 +1,8 @@
 
-import { Task, Accepts, Returns, PromiseResult } from './types';
+import Task from './types/Task';
+import PromiseResult from './types/PromiseResult';
+import Accepts from './types/Accepts';
+import Returns from './types/Returns';
 
 import CallbackTask from './types/CallbackTask';
 

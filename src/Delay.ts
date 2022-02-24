@@ -1,6 +1,4 @@
 
-import { Task } from './types';
-
 import Promisify from './Promisify';
 import Callbackify from './Callbackify';
 import _Delay from 'callback-patterns/Delay';

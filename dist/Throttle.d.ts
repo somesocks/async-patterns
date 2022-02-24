@@ -1,4 +1,7 @@
-import { Task, Accepts, Returns, PromiseResult } from './types';
+import Task from './types/Task';
+import PromiseResult from './types/PromiseResult';
+import Accepts from './types/Accepts';
+import Returns from './types/Returns';
 /**
 * Wraps a task and ensures that only X number of instances of the task can be run in parallel.
 * Requests are queued up in an unbounded FIFO queue until they can be run.

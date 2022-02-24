@@ -1,4 +1,7 @@
-import { Task, Accepts, Returns, PromiseResult } from './types';
+import Task from './types/Task';
+import PromiseResult from './types/PromiseResult';
+import Accepts from './types/Accepts';
+import Returns from './types/Returns';
 /**
 * Wraps a task and logs how long it takes to finish, or fail.
 * @param {taskFunction} task - the task to wrap.

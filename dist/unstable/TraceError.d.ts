@@ -1,4 +1,7 @@
-import { Task, Accepts, Returns, PromiseResult } from '../types';
+import Task from '../types/Task';
+import PromiseResult from '../types/PromiseResult';
+import Accepts from '../types/Accepts';
+import Returns from '../types/Returns';
 /**
 * TraceError is an experimental wrapper that attempts to make errors more informative.
 * It does this by appending extra information to the stack of any error thrown in the task.
