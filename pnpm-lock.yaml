@@ -4,7 +4,7 @@ specifiers:
   '@types/mocha': 9.1.0
   '@typescript-eslint/eslint-plugin': 5.12.1
   '@typescript-eslint/parser': 5.12.1
-  callback-patterns: 2.5.0
+  callback-patterns: ^3.0.0
   eslint: 8.9.0
   jsdoc-to-markdown: 7.1.1
   mocha: 9.2.1
@@ -13,7 +13,7 @@ specifiers:
   vet: 4.3.1
 
 dependencies:
-  callback-patterns: 2.5.0
+  callback-patterns: 3.0.0
 
 devDependencies:
   '@types/mocha': 9.1.0
@@ -378,8 +378,8 @@ packages:
       mkdirp2: 1.0.4
     dev: true
 
-  /callback-patterns/2.5.0:
-    resolution: {integrity: sha512-cQ792VIeFzTJsECnYvhDtSIAnkKz7+P7g4IgY83hsVKvD4VpOB9tpWDnNjvNNH85TwsbreS6+JrUcxmoEnp84w==}
+  /callback-patterns/3.0.0:
+    resolution: {integrity: sha512-eH11EnTNmT01z9B4bxe7OfTYvHGRAwIMe7KFp7o/ptvpXYmWQpHF9kijVQZ/39YHj5UiZDIPnQjlzrK4YH7VBQ==}
     dependencies:
       setimmediate: 1.0.5
       tiny-lru: 7.0.2
